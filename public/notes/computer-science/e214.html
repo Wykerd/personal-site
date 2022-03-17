@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Computer Science E 214</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Computer Science E 214</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<h2 id="toc-title">Table of Contents</h2>
+<ul>
+<li><a href="#license">License</a></li>
+<li><a href="#hello-world">Hello World</a></li>
+<li><a href="#builtin-types">Builtin Types</a>
+<ul>
+<li><a href="#math">Math</a></li>
+<li><a href="#boolean">Boolean</a>
+<ul>
+<li><a href="#comparison-operators">Comparison Operators</a></li>
+</ul></li>
+<li><a href="#type-conversion">Type Conversion</a></li>
+</ul></li>
+<li><a href="#flow">Flow</a>
+<ul>
+<li><a href="#control-flow">Control Flow</a></li>
+<li><a href="#if-statement">If Statement</a></li>
+<li><a href="#while-loop">While Loop</a>
+<ul>
+<li><a href="#square-root-using-a-while-loop">Square Root Using a While
+Loop</a></li>
+</ul></li>
+<li><a href="#do-while-loop">Do-While Loop</a></li>
+<li><a href="#for-loop">For Loop</a></li>
+</ul></li>
+<li><a href="#monte-carlo-simulation">Monte Carlo Simulation</a></li>
+<li><a href="#arrays">Arrays</a>
+<ul>
+<li><a href="#shuffling-an-array">Shuffling an Array</a></li>
+<li><a href="#multi-dimensional-arrays">Multi-Dimensional
+Arrays</a></li>
+<li><a href="#matrix-multiplication">Matrix Multiplication</a></li>
+</ul></li>
+<li><a href="#input-and-output">Input and Output</a>
+<ul>
+<li><a href="#command-line-arguments">Command Line Arguments</a></li>
+<li><a href="#standard-input">Standard Input</a></li>
+<li><a href="#redirection-and-piping">Redirection and Piping</a></li>
+<li><a href="#standard-draw">Standard Draw</a></li>
+<li><a href="#standard-audio">Standard Audio</a></li>
+</ul></li>
+<li><a href="#functions">Functions</a></li>
+<li><a href="#libraries">Libraries</a>
+<ul>
+<li><a href="#random-numbers-library">Random Numbers Library</a></li>
+<li><a href="#statistics-library">Statistics Library</a></li>
+<li><a href="#test-driven-development">Test Driven Development</a></li>
+<li><a href="#modular-programming">Modular Programming</a></li>
+</ul></li>
+<li><a href="#recursion">Recursion</a>
+<ul>
+<li><a href="#greatest-common-divisor">Greatest Common Divisor</a></li>
+<li><a href="#fibonacci-sequence">Fibonacci Sequence</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="license">License</h1>
+<p>Copyright 2022 Daniel Wykerd.
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" /></a><br />This
+work is licensed under a
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative
+Commons Attribution-NonCommercial-ShareAlike 4.0 International
+License</a>.</p>
+<p>This is notes for the Computer Science E 214 module at the
+Stellenbosch University. It is based off the lectures provided by
+Stellenbosch University which in turn is based off the Princeton
+Handbook, <a href="https://introcs.cs.princeton.edu/java/home/">Computer
+Science - An Interdisciplinary Approach</a>.</p>
+<h1 id="hello-world">Hello World</h1>
+<p>Java is a cross-platform, object-oriented language that runs in the
+Java Virtual Machine (JVM).</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Hello World Class</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">// In java the class name must match the file name</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">// this means that the file name must be HelloWorld.java</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> HelloWorld <span class="op">{</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// like C, Java also has a main method which is called </span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// when running the program as an executable</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">// however unlike C, Java does not have a return type</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// the arguments also exclude the java command itself</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">// System is a class provided by the Java Development Kit (JDK)</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="co">// it provides similar functionality to the C stdio library</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="co">// here we&#39;re printing to the stdout (standard output)</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Hello World!&quot;</span><span class="op">);</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>To compile this program, we must use a java compiler to generate a
+bytecode file. The standard java compiler is provided as a command line
+tool called <code>javac</code>. You must provide it with the name of the
+file to compile and it will output the bytecode file to the same
+directory as the source file.</p>
+<p>Once compiled, it can be run in the JVM by using the
+<code>java</code> command.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">%</span> javac HelloWorld.java</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">%</span> java HelloWorld</span></code></pre></div>
+<h1 id="builtin-types">Builtin Types</h1>
+<p>Types tell the compiler how to interpret the values of variables,
+however they are still stored as bytes in the JVM memory.</p>
+<ul>
+<li><strong>Variable</strong>: a variable is a named location in memory
+that can hold a value of a certain type.</li>
+<li><strong>Literal</strong>: notation for expressing fixed value in
+source code.</li>
+<li><strong>Assignment</strong>: the process of assigning a value to a
+variable.</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// this is a declaration statement for a variable called `x` of type `int`</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> x<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">// this is assignment statement, assigning a literal value of 1 to the variable `x`</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">// it can be combined into a single statement</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> y <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span></code></pre></div>
+<p>Java has 8 primative types: 1. <code>int</code>: 32-bit signed
+integer 2. <code>long</code>: 64-bit signed integer 3.
+<code>float</code>: 32-bit floating point 4. <code>double</code>: 64-bit
+floating point 5. <code>boolean</code>: 32-bit boolean 6.
+<code>char</code>: 16-bit Unicode character 7. <code>byte</code>: 8-bit
+signed integer 8. <code>short</code>: 16-bit signed integer</p>
+<p>Java also provides a simple class for handling text:
+<code>String</code>.</p>
+<h2 id="math">Math</h2>
+<p>Java allows for simple mathematical operations to be performed on
+numbers.</p>
+<ul>
+<li><code>+</code>: addition</li>
+<li><code>-</code>: subtraction</li>
+<li><code>*</code>: multiplication</li>
+<li><code>/</code>: division</li>
+<li><code>%</code>: modulo</li>
+<li><code>++</code>: increment</li>
+<li><code>--</code>: decrement</li>
+</ul>
+<p>More complex math can be performed using the <code>Math</code>
+class.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> <span class="bu">Math</span> <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="fu">abs</span><span class="op">(</span><span class="dt">double</span> x<span class="op">);</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="fu">max</span><span class="op">(</span><span class="dt">double</span> x<span class="op">,</span> <span class="dt">double</span> y<span class="op">);</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="fu">min</span><span class="op">(</span><span class="dt">double</span> x<span class="op">,</span> <span class="dt">double</span> y<span class="op">);</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// </span><span class="al">NOTE</span><span class="co">: abs, min, max are defined for all numeric types</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="fu">sin</span><span class="op">(</span><span class="dt">double</span> x<span class="op">);</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="fu">cos</span><span class="op">(</span><span class="dt">double</span> x<span class="op">);</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="fu">tan</span><span class="op">(</span><span class="dt">double</span> x<span class="op">);</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="fu">asin</span><span class="op">(</span><span class="dt">double</span> x<span class="op">);</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="fu">acos</span><span class="op">(</span><span class="dt">double</span> x<span class="op">);</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="fu">atan</span><span class="op">(</span><span class="dt">double</span> x<span class="op">);</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">// </span><span class="al">NOTE</span><span class="co">: angles are defined in radians</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">//       use `toRadians()` to convert to radians</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="fu">exp</span><span class="op">(</span><span class="dt">double</span> x<span class="op">);</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="fu">log</span><span class="op">(</span><span class="dt">double</span> x<span class="op">);</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="fu">pow</span><span class="op">(</span><span class="dt">double</span> x<span class="op">,</span> <span class="dt">double</span> y<span class="op">);</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="dt">long</span> <span class="fu">round</span><span class="op">(</span><span class="dt">double</span> x<span class="op">);</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="fu">random</span><span class="op">();</span> <span class="co">// returns a random double in the range [0, 1)</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="fu">sqrt</span><span class="op">(</span><span class="dt">double</span> x<span class="op">);</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Mathematical constants</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> E<span class="op">;</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> PI<span class="op">;</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="boolean">Boolean</h2>
+<p>Binary values can be represented by the <code>boolean</code> type.
+The values are <code>true</code> and <code>false</code>. It is useful to
+control the flow of a program.</p>
+<h3 id="comparison-operators">Comparison Operators</h3>
+<p>Take two operands of the same and compare them.</p>
+<table>
+<thead>
+<tr class="header">
+<th>operator</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>==</td>
+<td>equal to</td>
+</tr>
+<tr class="even">
+<td>!=</td>
+<td>not equal to</td>
+</tr>
+<tr class="odd">
+<td>&lt;</td>
+<td>less than</td>
+</tr>
+<tr class="even">
+<td>&gt;</td>
+<td>greater than</td>
+</tr>
+<tr class="odd">
+<td>&lt;=</td>
+<td>less than or equal to</td>
+</tr>
+<tr class="even">
+<td>&gt;=</td>
+<td>greater than or equal to</td>
+</tr>
+</tbody>
+</table>
+<h2 id="type-conversion">Type Conversion</h2>
+<p>Converts a value of one type to another. There are two ways to do
+this: automatic (no precision loss or string conversion) and
+explicit(casting).</p>
+<p>Explicit casting is done by using the <code>(type)</code>
+operator.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">// implicit conversion</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> x <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> y <span class="op">=</span> x<span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">// explicit conversion</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> z <span class="op">=</span> <span class="op">(</span><span class="dt">double</span><span class="op">)</span> x<span class="op">;</span></span></code></pre></div>
+<h1 id="flow">Flow</h1>
+<h2 id="control-flow">Control Flow</h2>
+<ul>
+<li>Sequence of statements that are executed one after another.</li>
+<li>Conditionals and loops are used to control the flow of the program.
+We can conditionally execute a statement or loop sequences based on a
+condition.</li>
+</ul>
+<h2 id="if-statement">If Statement</h2>
+<p>Used for branching sequences of statements based on a condition. - If
+the condition is true, the first block of code is executed. - If the
+condition is false, the second block of code is executed.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">// condition is a boolean expression</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>condition<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// code to execute if condition is true</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// code to execute if condition is false</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// you may omit this block</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="while-loop">While Loop</h2>
+<p>Used for executing a sequence of statements while a condition is
+true.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">// condition is a boolean expression</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="op">(</span>condition<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// code to execute while condition is true</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 id="square-root-using-a-while-loop">Square Root Using a While
+Loop</h3>
+<p>Newton-Raphson method for finding the square root of a number <span
+class="math inline">\(c\)</span>.</p>
+<ul>
+<li>initial guess: <span class="math inline">\(t_0 = c\)</span></li>
+<li><span class="math inline">\(t_n = \frac{t_{n-1} +
+\frac{2}{c}}{2}\)</span></li>
+<li>repeat until desired precision <span
+class="math inline">\(\left|\frac{t_n - c}{t_n}\right| &lt; t_n \cdot
+epsilon\)</span></li>
+</ul>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> SquareRoot <span class="op">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="co">// parseX is a helper function that parses a string to the desired type</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="co">// we&#39;re reading from the commandline arguments</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">double</span> c <span class="op">=</span> <span class="bu">Double</span><span class="op">.</span><span class="fu">parseDouble</span><span class="op">(</span>args<span class="op">[</span><span class="dv">0</span><span class="op">]);</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        <span class="co">// the desired precision</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">double</span> epsilon <span class="op">=</span> <span class="fl">0.01</span><span class="op">;</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        <span class="co">// initial guess</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">double</span> t <span class="op">=</span> c<span class="op">;</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">// repeat until desired precision</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        <span class="co">// relative error is difference between </span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        <span class="co">//      current and next value divided by current value</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        <span class="co">// we&#39;re using the absolute value of the relative error</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        <span class="co">// and comparing it to the relative error of the current value</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="op">(</span><span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span><span class="op">(</span>t <span class="op">-</span> c <span class="op">/</span> t<span class="op">)</span> <span class="op">&gt;</span> epsilon <span class="op">*</span> t<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>            t <span class="op">=</span> <span class="op">(</span>t <span class="op">+</span> c<span class="op">/</span>t<span class="op">)</span> <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>        <span class="co">// print the result</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>t<span class="op">);</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="do-while-loop">Do-While Loop</h2>
+<p>Less common than a while loop, but still useful. Checks the condition
+after executing the body.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span> <span class="op">{</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// code to execute while condition is true</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// condition is a boolean expression</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">while</span> <span class="op">(</span>condition<span class="op">);</span></span></code></pre></div>
+<h2 id="for-loop">For Loop</h2>
+<p>Common looping construct.</p>
+<ul>
+<li>Executes an initial statement</li>
+<li>then evaluates an condition</li>
+<li>if the condition is true, executes the body</li>
+<li>then an increment statement</li>
+<li>repeats until the condition is false.</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> <span class="co">/* init */</span>  </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>     i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span>    <span class="co">/* condition */</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>     i<span class="op">++)</span>       <span class="co">/* increment */</span> </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* body */</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h1 id="monte-carlo-simulation">Monte Carlo Simulation</h1>
+<p>According to the <a
+href="https://en.wikipedia.org/wiki/Monte_Carlo_method">Wikipedia
+article</a>:</p>
+<pre><code>Monte Carlo methods, or Monte Carlo experiments, are a broad class of computational algorithms that rely on repeated random sampling to obtain numerical results. The underlying concept is to use randomness to solve problems that might be deterministic in principle. They are often used in physical and mathematical problems and are most useful when it is difficult or impossible to use other approaches. Monte Carlo methods are mainly used in three problem classes:[1] optimization, numerical integration, and generating draws from a probability distribution.</code></pre>
+<p>basically, we use random numbers to simulate and compute the
+probability of a random event.</p>
+<p>For example:</p>
+<ul>
+<li>Gambler starts with stake and places $1 fair coin flip bets until
+going broke or reaching a goal.</li>
+<li>How many times did they win?</li>
+</ul>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Gambler <span class="op">{</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>        <span class="co">// we&#39;re reading from the commandline arguments</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> stake <span class="op">=</span> <span class="bu">Integer</span><span class="op">.</span><span class="fu">parseInt</span><span class="op">(</span>args<span class="op">[</span><span class="dv">0</span><span class="op">]);</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> goal <span class="op">=</span> <span class="bu">Integer</span><span class="op">.</span><span class="fu">parseInt</span><span class="op">(</span>args<span class="op">[</span><span class="dv">1</span><span class="op">]);</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> trials <span class="op">=</span> <span class="bu">Integer</span><span class="op">.</span><span class="fu">parseInt</span><span class="op">(</span>args<span class="op">[</span><span class="dv">2</span><span class="op">]);</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        <span class="co">// repeat for each trial</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> t <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> t <span class="op">&lt;</span> T<span class="op">;</span> t<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>            <span class="co">// do one gambler&#39;s ruin simulation</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>            <span class="dt">int</span> cash <span class="op">=</span> stake<span class="op">;</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> <span class="op">(</span>cash <span class="op">&gt;</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> cash <span class="op">&lt;</span> goal<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>                <span class="co">// generate a random number in [0, 1)</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>                <span class="dt">double</span> r <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">random</span><span class="op">();</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> <span class="op">(</span>r <span class="op">&lt;</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>                    cash<span class="op">++;</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>                <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>                    cash<span class="op">--;</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>                <span class="op">}</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>cash <span class="op">==</span> goal<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>                <span class="co">// won the game</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>                wins<span class="op">++;</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>        <span class="co">// print the result</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>wins <span class="op">+</span> <span class="st">&quot; wins of &quot;</span> <span class="op">+</span> T<span class="op">);</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>From statistics, the probability of winning is <span
+class="math inline">\(\frac{stake}{goal}\)</span>. This will more or
+less align with the monte carlo simulation.</p>
+<p>We use monte carlo simulation to estimate the probability of a random
+event where doing so mathetically is impossible or inpractical.</p>
+<h1 id="arrays">Arrays</h1>
+<p>Indexed sequences of values of the same type.</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">// create an array of integers</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span><span class="op">[]</span> array <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span><span class="dv">10</span><span class="op">];</span>  <span class="co">// creates a 10-element array of zeros</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                            <span class="co">// the new keyword allocates the memory</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                            <span class="co">// for the array class</span></span></code></pre></div>
+<p>Java is a garbage-collected language, meaning that the garbage
+collector is responsible for reclaiming memory. You as programmer do not
+have to deallocate the array or the elements of the array (or any other
+data structure) manually.</p>
+<ul>
+<li>Array indexing starts at 0.</li>
+<li>Accessing an element of an array is done by using the index of the
+element with square brackets: <code>array[index]</code>.</li>
+</ul>
+<h3 id="shuffling-an-array">Shuffling an Array</h3>
+<p>Array elements can be swapped with each other using the below
+method.</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">// swap elements at indices i and j</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> <span class="fu">swap</span><span class="op">(</span><span class="dt">int</span><span class="op">[]</span> array<span class="op">,</span> <span class="dt">int</span> i<span class="op">,</span> <span class="dt">int</span> j<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> temp <span class="op">=</span> array<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    array<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> array<span class="op">[</span>j<span class="op">];</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    array<span class="op">[</span>j<span class="op">]</span> <span class="op">=</span> temp<span class="op">;</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="multi-dimensional-arrays">Multi-Dimensional Arrays</h2>
+<p>Java arrays can be multidimensional.</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 2D array with 10 rows and 20 columns</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span><span class="op">[][]</span> array <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span><span class="dv">10</span><span class="op">][</span><span class="dv">20</span><span class="op">];</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">// arrays are still zero-indexed</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">// access the element at 3rd row, 5th column</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>array<span class="op">[</span><span class="dv">2</span><span class="op">][</span><span class="dv">4</span><span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span></code></pre></div>
+<p>Using a 1-dimensional array to represent a 2-dimensional array.</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">// say we want a 4x13 array</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span><span class="op">[]</span> array <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span><span class="dv">4</span> <span class="op">*</span> <span class="dv">13</span><span class="op">];</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co">// we can get the element at row 3, column 5</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> y <span class="op">=</span> <span class="dv">3</span><span class="op">,</span> x <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>array<span class="op">[</span><span class="dv">4</span> <span class="op">*</span> y <span class="op">+</span> x<span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span></code></pre></div>
+<h2 id="matrix-multiplication">Matrix Multiplication</h2>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">// you may initialize the matrix with values as below</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span><span class="op">[][]</span> a <span class="op">=</span> <span class="op">{{</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">},</span> <span class="op">{</span><span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">}};</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span><span class="op">[][]</span> b <span class="op">=</span> <span class="op">{{</span><span class="dv">5</span><span class="op">,</span> <span class="dv">6</span><span class="op">},</span> <span class="op">{</span><span class="dv">7</span><span class="op">,</span> <span class="dv">8</span><span class="op">}};</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span><span class="op">[][]</span> c <span class="op">=</span> <span class="kw">new</span> <span class="dt">double</span><span class="op">[</span><span class="dv">2</span><span class="op">][</span><span class="dv">2</span><span class="op">];</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">2</span><span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> <span class="dv">2</span><span class="op">;</span> j<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> k <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> k <span class="op">&lt;</span> <span class="dv">2</span><span class="op">;</span> k<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>            c<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">+=</span> a<span class="op">[</span>i<span class="op">][</span>k<span class="op">]</span> <span class="op">*</span> b<span class="op">[</span>k<span class="op">][</span>j<span class="op">];</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co">// this is O(n^3) time and O(n^2) space</span></span></code></pre></div>
+<h1 id="input-and-output">Input and Output</h1>
+<p>Java provides libraries for input and output which are called
+streams, and are used to read and write data.</p>
+<p><strong>Terminal</strong>: application used to control the operating
+system using commands.</p>
+<h2 id="command-line-arguments">Command Line Arguments</h2>
+<p>One way of getting input is from the command line.</p>
+<p>In Java, these arguments are passed as a string array to the main
+method.</p>
+<p>For example:</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">%</span> java Add 10 6</span></code></pre></div>
+<p>will be passed into the main method as:</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span><span class="op">[]</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// args[0] = &quot;10&quot;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// args[1] = &quot;6&quot;</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> a <span class="op">=</span> <span class="bu">Integer</span><span class="op">.</span><span class="fu">parseInt</span><span class="op">(</span>args<span class="op">[</span><span class="dv">0</span><span class="op">]);</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> b <span class="op">=</span> <span class="bu">Integer</span><span class="op">.</span><span class="fu">parseInt</span><span class="op">(</span>args<span class="op">[</span><span class="dv">1</span><span class="op">]);</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// print to stdout</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>a <span class="op">+</span> b<span class="op">);</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>In Java <code>System.out.println()</code> prints the output to the
+standard output (on *nix systems this is the file located at
+<code>/dev/stdout</code>)</p>
+<h2 id="standard-input">Standard Input</h2>
+<p>Java provides a standard input stream, which is used to read data
+from the keyboard.</p>
+<p>By default this abstraction reads from the standard input
+(<code>/dev/stdin</code>).</p>
+<p>These inputs are fetched during execution of the program and is what
+we call <strong>blocking</strong> since it stops the flow of the program
+until it receives the input.</p>
+<p>In this course, we will use a special library to read from the input
+based off the <code>Scanner</code> class.</p>
+<p>Here’s the API of the course’s standard input and output classes:</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> StdIn <span class="op">{</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">boolean</span> <span class="fu">isEmpty</span><span class="op">();</span>          <span class="co">// true if not more values</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> <span class="fu">readInt</span><span class="op">();</span>          <span class="co">// read an int</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>     <span class="dt">double</span> <span class="fu">readDouble</span><span class="op">();</span>       <span class="co">// read a double</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>       <span class="dt">long</span> <span class="fu">readLong</span><span class="op">();</span>         <span class="co">// read a long</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>       <span class="dt">char</span> <span class="fu">readChar</span><span class="op">();</span>         <span class="co">// read a char</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>     <span class="bu">String</span> <span class="fu">readString</span><span class="op">();</span>       <span class="co">// read a string</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>     <span class="bu">String</span> <span class="fu">readLine</span><span class="op">();</span>         <span class="co">// read a line, discarding the newline</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>     <span class="bu">String</span> <span class="fu">readAll</span><span class="op">();</span>          <span class="co">// read all remaining input</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co">// rather use System.out.println() directly</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> StdOut <span class="op">{</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">print</span><span class="op">(</span><span class="bu">String</span> x<span class="op">);</span>       </span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">println</span><span class="op">(</span><span class="bu">String</span> x<span class="op">);</span>     <span class="co">// print x and then a newline</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">printf</span><span class="op">(</span><span class="bu">String</span> format<span class="op">,</span> <span class="kw">...</span><span class="op">);</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="redirection-and-piping">Redirection and Piping</h2>
+<p>Your terminal shell provides a way to redirect the input/output of a
+command to a file. It also allows for piping of data between two
+commands.</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">%</span> java Add 10 6 <span class="op">&gt;</span> output.txt</span></code></pre></div>
+<p>This will redirect standard output to the file
+<code>output.txt</code>.</p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">%</span> java Add <span class="op">&lt;</span> input.txt</span></code></pre></div>
+<p>This will redirect standard input to the file
+<code>input.txt</code>.</p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">%</span> java Add 10 5 <span class="kw">|</span> <span class="ex">java</span> Square</span></code></pre></div>
+<p>In this command, the output of the Add command is piped to the input
+of the Square command.</p>
+<h2 id="standard-draw">Standard Draw</h2>
+<p>This course’s library provides a simple drawing API for drawing
+shapes.</p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> StdDraw <span class="op">{</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">line</span><span class="op">(</span><span class="dt">double</span> x1<span class="op">,</span> <span class="dt">double</span> y1<span class="op">,</span> <span class="dt">double</span> x2<span class="op">,</span> <span class="dt">double</span> y2<span class="op">);</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">point</span><span class="op">(</span><span class="dt">double</span> x<span class="op">,</span> <span class="dt">double</span> y<span class="op">);</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">circle</span><span class="op">(</span><span class="dt">double</span> x<span class="op">,</span> <span class="dt">double</span> y<span class="op">,</span> <span class="dt">double</span> radius<span class="op">);</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">filledCircle</span><span class="op">(</span><span class="dt">double</span> x<span class="op">,</span> <span class="dt">double</span> y<span class="op">,</span> <span class="dt">double</span> radius<span class="op">);</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">square</span><span class="op">(</span><span class="dt">double</span> x<span class="op">,</span> <span class="dt">double</span> y<span class="op">,</span> <span class="dt">double</span> radius<span class="op">);</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">filledSquare</span><span class="op">(</span><span class="dt">double</span> x<span class="op">,</span> <span class="dt">double</span> y<span class="op">,</span> <span class="dt">double</span> radius<span class="op">);</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">polygon</span><span class="op">(</span><span class="dt">double</span><span class="op">[]</span> x<span class="op">,</span> <span class="dt">double</span><span class="op">[]</span> y<span class="op">);</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">filledPolygon</span><span class="op">(</span><span class="dt">double</span><span class="op">[]</span> x<span class="op">,</span> <span class="dt">double</span><span class="op">[]</span> y<span class="op">);</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">setXscale</span><span class="op">(</span><span class="dt">double</span> min<span class="op">,</span> <span class="dt">double</span> max<span class="op">);</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">setYscale</span><span class="op">(</span><span class="dt">double</span> min<span class="op">,</span> <span class="dt">double</span> max<span class="op">);</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">setPenRadius</span><span class="op">(</span><span class="dt">double</span> r<span class="op">);</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">setPenColor</span><span class="op">(</span><span class="dt">int</span> r<span class="op">,</span> <span class="dt">int</span> g<span class="op">,</span> <span class="dt">int</span> b<span class="op">);</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">setFont</span><span class="op">(</span><span class="bu">Font</span> font<span class="op">);</span> <span class="co">// see documentation for Font class</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">setCanvasSize</span><span class="op">(</span><span class="dt">int</span> w<span class="op">,</span> <span class="dt">int</span> h<span class="op">);</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">clear</span><span class="op">(</span><span class="bu">Color</span> c<span class="op">);</span></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Deprecated</span></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">show</span><span class="op">(</span><span class="dt">int</span> dt<span class="op">);</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">show</span><span class="op">();</span></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">save</span><span class="op">(</span><span class="bu">String</span> filename<span class="op">);</span></span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">pause</span><span class="op">(</span><span class="dt">int</span> dt<span class="op">);</span></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">picture</span><span class="op">(</span><span class="dt">double</span> x<span class="op">,</span> <span class="dt">double</span> y<span class="op">,</span> <span class="bu">String</span> s<span class="op">);</span></span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="standard-audio">Standard Audio</h2>
+<p>Sound is the perception of the vibration of particles in a medium.
+This motion curve can be represented by sampling the sound wave at a
+regular interval.</p>
+<p>We must sample at twice the maximum frequency we wish to capture in
+able to capture the entire wave form without losing much
+information.</p>
+<p>For the human ear this maximum frequency is 22.05kHz, so we sample at
+44.1kHz.</p>
+<p><span class="math inline">\(y(i) = \sin{\frac{2\pi \cdot i \cdot
+440}{44100}}\)</span></p>
+<p>Our course allows us to play these samples using the
+<code>StdAudio</code> class.</p>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> StdAudio <span class="op">{</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// play wav file</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">play</span><span class="op">(</span><span class="bu">String</span> file<span class="op">);</span> </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// play a 44.1kHz waveform encoded as 64-bit floating point audio samples</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">play</span><span class="op">(</span><span class="dt">double</span><span class="op">[]</span> a<span class="op">);</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// play a single sample</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">play</span><span class="op">(</span><span class="dt">double</span> a<span class="op">);</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// save a wav file</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">save</span><span class="op">(</span><span class="bu">String</span> file<span class="op">,</span> <span class="dt">double</span><span class="op">[]</span> a<span class="op">);</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">// read a wav file to a double array</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span><span class="op">[]</span> <span class="fu">read</span><span class="op">(</span><span class="bu">String</span> file<span class="op">);</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>When adding mutiple sounds together, we can simply add the values of
+the samples together but then have to normalize the values back down by
+dividing by the number of samples we added together.</p>
+<h1 id="functions">Functions</h1>
+<p>Funtions take several arguments as input and return a value.</p>
+<p>Unlike mathematical functions, programming functions may get
+information from additional sources, not just the provided arguments.
+When the function alters state outside of its scope, the function is
+said to have <strong>side effects</strong>. It is common for functions
+which use side effects to be called <strong>mutators</strong> and return
+<code>void</code> - a special type for returning no value.</p>
+<p>Functions are useful for building modular programs.</p>
+<p>We’ve seen some built-in functions like <code>Math.random()</code>,
+but we can also define our own functions like <code>main</code>.</p>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">// define a function</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co">// this first line is called the signature</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co">// it informs us of the return type, the name of the function</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">// and the types of the parameters</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">double</span> <span class="fu">sqrt</span><span class="op">(</span><span class="dt">double</span> c<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// arguments are treated as local variables to this scope</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">// local variables can only be accessed within the function scope</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// and its children scopes</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> err <span class="op">=</span> <span class="fl">1e-15</span><span class="op">;</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> t <span class="op">=</span> c<span class="op">;</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span><span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span><span class="op">(</span>t <span class="op">-</span> c<span class="op">/</span>t<span class="op">)</span> <span class="op">&gt;</span> err <span class="op">*</span> t<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>        <span class="co">// the variables err, t and c are still accessible here</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>        <span class="co">// since they are declared in the function scope</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>        <span class="co">// which is the parent of this block scope</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>        t <span class="op">=</span> <span class="op">(</span>c<span class="op">/</span>t <span class="op">+</span> t<span class="op">)</span> <span class="op">/</span> <span class="fl">2.0</span><span class="op">;</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">// we return a value using the return keyword</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> t<span class="op">;</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Functions allow for a new way to control the flow of a program. We
+can jump to different sequences of code in our program by calling
+functions.</p>
+<p>When a function is called, the program jumps to the first line of the
+function and then executes the function. Afterwards it will return the
+the program to the line after the function call. This is possible by
+using a stack data structure, in which the program stores the current
+state of the program and then jumps to the next line of code, afterwards
+we can pop the top of the stack and return to the previous state.</p>
+<p>Java does not support explicitly stating whether to use call by value
+or call by reference. This is because the compiler will automatically
+determine the correct behavior. For primative types, the compiler will
+use call by value. For objects, the compiler will use call by reference.
+Therefore, when mutating a object in the function scope, it will also
+mutate the object in the caller scope.</p>
+<p>Java supports method overloading. This means that we can define
+multiple functions with the same name but different parameters and the
+compiler will automatically select the correct function to call based
+off the arguments provided.</p>
+<p>Functions allow for <strong>abstraction</strong>. We can make use of
+functions to <strong>hide</strong> the implementation of a specific
+feature, which can then in turn be used as building blocks for more
+functions and abstractions.</p>
+<h1 id="libraries">Libraries</h1>
+<ul>
+<li>Library: A module of code that is designed to be used by other
+programs.</li>
+<li>Client: A program that uses a library.</li>
+<li>API: Tell’s the client about the functions available in the library
+without revealing the implementation. Typically it will provided the
+function signatures.</li>
+<li>Implementation: The code that actually implements the methods of the
+API.</li>
+</ul>
+<p>The Java compiler will use an environment called the
+<strong>classpath</strong> to find libraries. The classpath is a list of
+directories that the compiler will search for libraries.</p>
+<p>Java provides the concept of <strong>packages</strong> to for
+grouping classes together like a folder in a file system and you only
+need the base folder in the classpath to access the entire package.</p>
+<p>Java’s API is called the <strong>JDK</strong> or <strong>Java
+Development Kit</strong> and provides the base libraries for the Java
+language on which all other libraries are based.</p>
+<h2 id="random-numbers-library">Random Numbers Library</h2>
+<p>Our course provides a library for working with random numbers.</p>
+<p>The API looks like this:</p>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> StdRandom <span class="op">{</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// returns a random int between 0 (inclusive) and n (exclusive)</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="fu">uniform</span><span class="op">(</span><span class="dt">int</span> n<span class="op">);</span> </span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// returns a random real number in the half-open interval [lo, hi)</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="fu">uniform</span><span class="op">(</span><span class="dt">double</span> lo<span class="op">,</span> <span class="dt">double</span> hi<span class="op">);</span> </span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// returns true with probability p</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">boolean</span> <span class="fu">bernoulli</span><span class="op">(</span><span class="dt">double</span> p<span class="op">);</span> </span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// normal distribution with mean 0 and standard deviation 1</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="fu">gaussian</span><span class="op">();</span> </span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">// normal distribution with mean m and standard deviation s</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="fu">gaussian</span><span class="op">(</span><span class="dt">double</span> m<span class="op">,</span> <span class="dt">double</span> s<span class="op">);</span> </span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">// sample from discrete distribution with probabilities a[i], retuns i</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="fu">discrete</span><span class="op">(</span><span class="dt">double</span><span class="op">[]</span> a<span class="op">);</span> </span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">// randomly shuffle array of doubles</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">shuffle</span><span class="op">(</span><span class="dt">double</span><span class="op">[]</span> a<span class="op">);</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="statistics-library">Statistics Library</h2>
+<p>Our course provides a library for working with statistics.</p>
+<p>The API looks like this:</p>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> StdStats <span class="op">{</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// largest value</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="fu">max</span><span class="op">(</span><span class="dt">double</span><span class="op">[]</span> a<span class="op">);</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// smallest value</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="fu">min</span><span class="op">(</span><span class="dt">double</span><span class="op">[]</span> a<span class="op">);</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// average value</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="fu">mean</span><span class="op">(</span><span class="dt">double</span><span class="op">[]</span> a<span class="op">);</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// sample variance</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="dt">var</span><span class="op">(</span><span class="dt">double</span><span class="op">[]</span> a<span class="op">);</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">// sample standard deviation</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="fu">stddev</span><span class="op">(</span><span class="dt">double</span><span class="op">[]</span> a<span class="op">);</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">// sample median</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="fu">median</span><span class="op">(</span><span class="dt">double</span><span class="op">[]</span> a<span class="op">);</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">// plot points at (i, a[i])</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">plotPoints</span><span class="op">(</span><span class="dt">double</span><span class="op">[]</span> a<span class="op">);</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">// plot lines connecting at (i, a[i])</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">plotLines</span><span class="op">(</span><span class="dt">double</span><span class="op">[]</span> a<span class="op">);</span></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">// plot bars to points at (i, a[i])</span></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> <span class="fu">plotBars</span><span class="op">(</span><span class="dt">double</span><span class="op">[]</span> a<span class="op">);</span></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="test-driven-development">Test Driven Development</h2>
+<p><strong>Test Driven Development</strong> is a software development
+process that uses a test suite to validate the correctness of a
+program.</p>
+<p>In test driven development, the programmer writes tests first, then
+the program is developed to pass the tests.</p>
+<p>We may use the main method to provide a test suite for our program or
+we may use some framework like JUnit to provide a test suite for our
+program.</p>
+<h2 id="modular-programming">Modular Programming</h2>
+<ul>
+<li>Divide program into self-contained pieces.</li>
+<li>Test each piece independently.</li>
+<li>Combine pieces to create a larger program.</li>
+<li>Simplify building of complex programs by breaking them into smaller,
+reusable pieces.</li>
+<li>Improves debugging and maintenance.</li>
+</ul>
+<h1 id="recursion">Recursion</h1>
+<p>When a function calls itself, directly or indirectly, it is called
+<strong>recursion</strong>. Recursion is a powerful programming
+paradigm.</p>
+<p>Recursion is closely related to <a
+href="https://en.wikipedia.org/wiki/Mathematical_induction">mathematical
+induction</a>, proving something is true for a large case and assuming
+the same for a smaller case. It has a base case and inductive step.</p>
+<p>Recursion works in the opposite direction, breaking the problem into
+smaller parts instead of bigger parts, also having a base case but
+instead of inductive step has a recursive step to make the problem
+smaller.</p>
+<h2 id="greatest-common-divisor">Greatest Common Divisor</h2>
+<p>Lets take for example the greatest common divisor of two numbers.</p>
+<p>We can compute this using euclidean algorithm.</p>
+<p><span class="math inline">\(gcd(a, b) = \Bigg \{ \begin{array}{ll}  b
+&amp; \text{if } a = 0 \\  gcd(b, a \mod b) &amp; \text{otherwise}
+\end{array}\)</span></p>
+<p>Here <span class="math inline">\(b \text{ if } a = 0\)</span> is the
+base case and <span class="math inline">\(gcd(b, a \mod b)\)</span> is
+the recursive step.</p>
+<p>We can implement it in Java as follows:</p>
+<div class="sourceCode" id="cb29"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">int</span> <span class="fu">gcd</span><span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>b <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="cf">return</span> a<span class="op">;</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">gcd</span><span class="op">(</span>b<span class="op">,</span> a <span class="op">%</span> b<span class="op">);</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="fibonacci-sequence">Fibonacci Sequence</h2>
+<p><span class="math inline">\(F(n) = \Bigg \{ \begin{array}{ll}  0
+&amp; \text{if } n = 0 \\  1 &amp; \text{if } n = 1 \\  F(n - 1) + F(n -
+2) &amp; \text{otherwise} \end{array}\)</span></p>
+<p>The recursive java function looks like this:</p>
+<div class="sourceCode" id="cb30"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">long</span> <span class="fu">fib</span><span class="op">(</span><span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>n <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>n <span class="op">==</span> <span class="dv">1</span><span class="op">)</span> <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">fib</span><span class="op">(</span>n <span class="op">-</span> <span class="dv">1</span><span class="op">)</span> <span class="op">+</span> <span class="fu">fib</span><span class="op">(</span>n <span class="op">-</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>This function is very slow and inefficient, recomputing the same
+values over and over again.</p>
+<p>We may use a memoization without recursion to improve the performance
+of the function.</p>
+<div class="sourceCode" id="cb31"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">long</span> <span class="fu">fib</span><span class="op">(</span><span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>n <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">long</span><span class="op">[]</span> F <span class="op">=</span> <span class="kw">new</span> <span class="dt">long</span><span class="op">[</span>n <span class="op">+</span> <span class="dv">1</span><span class="op">];</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    F<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    F<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">2</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>        F<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> F<span class="op">[</span>i <span class="op">-</span> <span class="dv">1</span><span class="op">]</span> <span class="op">+</span> F<span class="op">[</span>i <span class="op">-</span> <span class="dv">2</span><span class="op">];</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> F<span class="op">[</span>n<span class="op">];</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+</body>
+</html>
