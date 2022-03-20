@@ -1,0 +1,1905 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Computer Systems 214 - Draft</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Computer Systems 214 - Draft</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<h2 id="toc-title">Table of Contents</h2>
+<ul>
+<li><a href="#license">License</a></li>
+<li><a href="#introduction-to-digital-logic">Introduction to Digital
+Logic</a></li>
+<li><a href="#numbering-systems">Numbering Systems</a></li>
+<li><a href="#signed-numbers-and-binary-arithmetic">Signed Numbers and
+Binary Arithmetic</a></li>
+<li><a href="#fixed--and-floating-point-numbers">Fixed- and
+floating-point numbers</a>
+<ul>
+<li><a href="#ieee-754-floating-point-numbers">IEEE 754 Floating-Point
+Numbers</a>
+<ul>
+<li><a href="#example-decoding-a-floating-point-number">Example:
+Decoding a Floating-Point Number</a></li>
+<li><a href="#example-encoding-a-floating-point-number">Example:
+Encoding a Floating-Point Number</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#implementation-of-number-systems-in-c">Implementation of
+Number Systems in C</a></li>
+<li><a href="#logic-gates-and-logic-levels">Logic Gates and Logic
+Levels</a></li>
+<li><a
+href="#transistors-nmos-and-cmos-logic-gates-power-consumption">Transistors,
+nMOS and CMOS logic gates, power consumption</a>
+<ul>
+<li><a href="#mosfet-transistors">Mosfet Transistors</a></li>
+<li><a href="#cmos-transistors">CMOS Transistors</a></li>
+<li><a href="#not-gate-built-with-an-nmos-transistor">NOT gate built
+with an nMOS transistor</a></li>
+<li><a href="#nand-gate-using-an-nmos-transistors">NAND gate using an
+nMOS transistors</a></li>
+<li><a href="#and-gate-built-with-an-nmos-transistors">AND gate built
+with an nMOS transistors</a></li>
+<li><a href="#nor-gate-built-with-an-nmos-transistors">NOR gate built
+with an nMOS transistors</a></li>
+<li><a href="#or-gate-built-with-an-nmos-transistors">OR gate built with
+an nMOS transistors</a></li>
+<li><a href="#cmos-logic-gates">CMOS Logic Gates</a></li>
+<li><a href="#cmos-not-gate">CMOS NOT gate</a></li>
+<li><a href="#cmos-nand-gate">CMOS NAND gate</a></li>
+<li><a href="#cmos-and-gate">CMOS AND gate</a></li>
+<li><a href="#cmos-nor-gate">CMOS NOR gate</a></li>
+<li><a href="#cmos-or-gate">CMOS OR gate</a></li>
+<li><a href="#short-circuits-and-floats">Short Circuits and
+Floats</a></li>
+<li><a href="#power-consumption">Power Consumption</a></li>
+</ul></li>
+<li><a href="#combinational-logic">Combinational logic</a></li>
+<li><a href="#boolean-algebra">Boolean algebra</a></li>
+<li><a href="#from-logic-gates-to-multilevel-combinational-logic">From
+logic gates to multilevel combinational logic</a></li>
+<li><a href="#xs-and-zs">X’s and Z’s</a>
+<ul>
+<li><a href="#illegal-x">Illegal X</a></li>
+<li><a href="#dont-care-x">Don’t Care X</a></li>
+<li><a href="#floating-value-z">Floating Value Z</a></li>
+</ul></li>
+<li><a href="#tristate">Tristate</a></li>
+<li><a href="#karnaugh-maps">Karnaugh maps</a>
+<ul>
+<li><a href="#k-maps-three-input-example">K-maps three-input
+example</a></li>
+<li><a href="#gray-codes">Gray codes</a></li>
+<li><a href="#k-map-minimization">K-map minimization</a>
+<ul>
+<li><a href="#rules-for-minimization">Rules for minimization</a></li>
+</ul></li>
+<li><a href="#incompletely-specified-functions">Incompletely specified
+functions</a>
+<ul>
+<li><a href="#seven-segment-display-with-dont-cares">Seven-segment
+display with don’t cares</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#combinational-building-blocks">Combinational Building
+Blocks</a></li>
+<li><a href="#multiple-output-functions">Multiple Output
+Functions</a></li>
+<li><a href="#multiplexers">Multiplexers</a>
+<ul>
+<li><a href="#multiplexer-implementation">2:1 Multiplexer
+implementation</a></li>
+<li><a href="#wider-multiplexers">Wider Multiplexers</a></li>
+<li><a href="#multiplexer-logic">Multiplexer logic</a>
+<ul>
+<li><a href="#example-three-input-xor-function-with-21-muxes">Example:
+Three input XOR function with 2:1 muxes</a></li>
+<li><a href="#example-three-input-xor-gate-with-41-muxes">Example: Three
+input XOR gate with 4:1 muxes</a></li>
+<li><a
+href="#example-three-input-majority-function-with-a-21-mux">Example:
+Three input majority function with a 2:1 mux</a></li>
+<li><a
+href="#example-three-input-majority-function-with-41-mux">Example: Three
+input majority function with 4:1 mux</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#shannons-expansion-theorem">Shannon’s Expansion
+Theorem</a></li>
+<li><a href="#one-hot">One-hot</a></li>
+<li><a href="#binary-decoders">Binary Decoders</a>
+<ul>
+<li><a href="#decoders-2-to-4-24-binary-decoder">Decoders: 2-to-4 (2:4)
+binary decoder</a></li>
+<li><a href="#decoders-3-to-8-38-binary-decoder">Decoders: 3-to-8 (3:8)
+binary decoder</a></li>
+<li><a href="#decoders-4-to-16-416-binary-decoder">Decoders: 4-to-16
+(4:16) binary decoder</a></li>
+<li><a href="#binary-decoder-applications">Binary Decoder
+Applications</a></li>
+</ul></li>
+<li><a href="#demultiplexers">Demultiplexers</a></li>
+<li><a href="#encoders">Encoders</a>
+<ul>
+<li><a href="#to-2-42-binary-encoder">4-to-2 (4:2) binary
+encoder</a></li>
+<li><a href="#priority-encoders">Priority Encoders</a></li>
+</ul></li>
+<li><a href="#timing">Timing</a>
+<ul>
+<li><a href="#propagation-and-contamination-delay">Propagation and
+Contamination Delay</a></li>
+<li><a href="#critical-and-shortest-path">Critical and Shortest
+Path</a></li>
+</ul></li>
+<li><a href="#sequential-logic-circuits">Sequential Logic
+Circuits</a></li>
+<li><a href="#bistable-elements">Bistable Elements</a></li>
+<li><a href="#sr-latch">SR Latch</a></li>
+<li><a href="#gated-sr-latch">Gated SR Latch</a></li>
+<li><a href="#gated-d-latch">Gated D Latch</a></li>
+<li><a href="#d-flip-flop">D Flip-Flop</a>
+<ul>
+<li><a href="#positive-edge-triggered-d-flip-flop">Positive Edge
+Triggered D Flip-Flop</a></li>
+<li><a href="#negative-edge-triggered-d-flip-flop">Negative Edge
+Triggered D Flip-Flop</a></li>
+<li><a href="#enabled-flip-flop">Enabled Flip-Flop</a></li>
+<li><a href="#resettable-flip-flop">Resettable Flip-Flop</a></li>
+<li><a href="#preset-and-clear-flip-flops">Preset and Clear
+Flip-Flops</a></li>
+</ul></li>
+<li><a href="#registers">Registers</a>
+<ul>
+<li><a href="#register">Register</a></li>
+<li><a href="#shift-register">Shift Register</a>
+<ul>
+<li><a href="#shift-register-example">Shift Register Example</a></li>
+<li><a href="#parallel-access-shift-register">Parallel-Access Shift
+Register</a></li>
+</ul></li>
+<li><a href="#counters">Counters</a>
+<ul>
+<li><a href="#synchronous-counter">Synchronous Counter</a></li>
+<li><a href="#counters-with-parallel-load">Counters with Parallel
+Load</a></li>
+<li><a href="#counters-with-synchronous-reload">Counters with
+Synchronous Reload</a></li>
+<li><a href="#counters-with-asynchronous-reload">Counters with
+Asynchronous Reload</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#synchronous-logic-design">Synchronous Logic
+Design</a></li>
+<li><a href="#cyclic-circuits">Cyclic Circuits</a></li>
+<li><a href="#synchronous-sequential-circuits">Synchronous Sequential
+Circuits</a>
+<ul>
+<li><a
+href="#composition-of-synchronous-sequential-circuits">Composition of
+Synchronous Sequential Circuits</a></li>
+</ul></li>
+</ul>
+</nav>
+<p style="padding: 20px 40px; background-color: #f87171d0; border-radius: 8px; display: flex; top: 10px; position: sticky; position: -webkit-sticky; z-index: 10; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); font-size: 0.75rem">
+Warning: This is a draft. It is not complete. It does not have notes for
+week 1 and 2 nor lecture 6, 7 and 14 (partially).
+</p>
+<h1 id="license">License</h1>
+<p>Copyright 2022 Daniel Wykerd.
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" /></a><br />This
+work is licensed under a
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative
+Commons Attribution-NonCommercial-ShareAlike 4.0 International
+License</a>.</p>
+<h1 id="introduction-to-digital-logic">Introduction to Digital
+Logic</h1>
+<h1 id="numbering-systems">Numbering Systems</h1>
+<h1 id="signed-numbers-and-binary-arithmetic">Signed Numbers and Binary
+Arithmetic</h1>
+<h1 id="fixed--and-floating-point-numbers">Fixed- and floating-point
+numbers</h1>
+<h2 id="ieee-754-floating-point-numbers">IEEE 754 Floating-Point
+Numbers</h2>
+<p>There’s a specification developed by the IEEE for representing real
+numbers in a scientific like binary notation. It’s called IEEE 754.</p>
+<p>Before we begin, let’s define some terms.</p>
+<ul>
+<li><strong>significand</strong>: A component of a finite floating-point
+number containing its significant digits. The significand can be thought
+of as an integer, a fraction, or some other fixed-point form, by
+choosing an appropriate exponent offset. A decimal or subnormal binary
+significand can also contain leading zeros</li>
+<li><strong>subnormal number</strong>: In a particular format, a
+non-zero floating-point number with magnitude less than the magnitude of
+that format’s smallest normal number. A subnormal number does not use
+the full precision available to normal numbers of the same format</li>
+<li><strong>trailing significand field</strong>: A component of an
+encoded binary or decimal floating-point format containing all the
+significand digits except the leading digit. In these formats, the
+biased exponent or combination field encodes or implies the leading
+significand digit.</li>
+<li><strong>NaN</strong>: not a number—a symbolic floating-point datum.
+There are two kinds of NaN representations: quiet and signaling. Most
+operations propagate quiet NaNs without signaling exceptions, and signal
+the invalid operation exception when given a signaling NaN operand.</li>
+<li><strong>biased exponent</strong>: The sum of the exponent and a
+constant (bias) chosen to make the biased exponent’s range
+nonnegative.</li>
+</ul>
+<p>Below follows a abbreviated version of the specification for IEEE 754
+Binary Interchange Format Encoding, which you may use to decode IEEE 754
+floating point numbers.</p>
+<p>Floating-point numbers are encoded in k binary bits in the following
+three ordered fields:</p>
+<ol type="1">
+<li>1-bit sign (<span class="math inline">\(S\)</span>)</li>
+<li><span class="math inline">\(w\)</span>-bit biased exponent <span
+class="math inline">\(E = e + bias\)</span></li>
+<li><span class="math inline">\((t = p - 1)\)</span>-bit
+<strong>trailing significand field</strong> with the the leading bit of
+the significand inplicity encoded in the biased exponent <span
+class="math inline">\(E\)</span>
+<ul>
+<li>Notice: <em>We call this field the <strong>“mantissa”</strong> in
+this course.</em></li>
+</ul></li>
+</ol>
+<p><img src="./assets/ieee_754.png" width="700" /></p>
+<ul>
+<li><span class="math inline">\(S\)</span> = the sign bit (0 or 1)</li>
+<li><span class="math inline">\(E\)</span> = base-2 encoded biased
+exponent.</li>
+<li><span class="math inline">\(T\)</span> = base-2 encoded trailing
+significand field.</li>
+<li><span class="math inline">\(t\)</span> = the number of bits in the
+trailing significand field.</li>
+<li><span class="math inline">\(w\)</span> = the number of bits in the
+biased exponent.</li>
+<li><span class="math inline">\(bias = 2^(w - 1) - 1\)</span></li>
+<li><span class="math inline">\(p = t + 1\)</span></li>
+<li><span class="math inline">\(emin = 2 - 2^{w - 1}\)</span></li>
+</ul>
+<p>The biased exponent range includes:</p>
+<ul>
+<li>every integer <span class="math inline">\(\left[1, 2^w -
+2\right]\)</span> for encoding normal numbers</li>
+<li><span class="math inline">\(E = 0\)</span> reserved for encoding
+<span class="math inline">\(\pm 0\)</span> and <strong>subnormal
+numbers</strong></li>
+<li><span class="math inline">\(E = 2^w - 1\)</span> reserved for
+encoding <span class="math inline">\(\pm \infty\)</span> and
+<strong>NaNs</strong></li>
+</ul>
+<p>The value <span class="math inline">\(v\)</span> of a floating-point
+number is inferred from the fields as follows:</p>
+<ul>
+<li><span class="math inline">\(E = 2^w - 1\)</span> and <span
+class="math inline">\(T \neq 0\)</span> then <span
+class="math inline">\(v = \text{NaN}\)</span></li>
+<li><span class="math inline">\(E = 2^w - 1\)</span> and <span
+class="math inline">\(T = 0\)</span> then <span class="math inline">\(v
+= (-1)^S \cdot (+ \infty)\)</span></li>
+<li><span class="math inline">\(1 \leq E \leq 2^w - 2\)</span> then
+<span class="math inline">\(v = (-1)^S \cdot 2^{E - bias} \cdot (1 +
+2^{1 - p} \cdot T)\)</span></li>
+<li><span class="math inline">\(E = 0\)</span> and <span
+class="math inline">\(T \neq 0\)</span> then <span
+class="math inline">\(v = (-1)^S \cdot 2^{emin} \cdot (0 + 2^{1 - p}
+\cdot T)\)</span>
+<ul>
+<li>Notice: Here we can see that <strong>subnormal numbers</strong> have
+an implicit leading bit of 0 instead of the normal leading bit of
+1.</li>
+</ul></li>
+<li><span class="math inline">\(E = 0\)</span> and <span
+class="math inline">\(T = 0\)</span> then <span class="math inline">\(v
+= (-1)^S \cdot 0\)</span>
+<ul>
+<li>Notice: we have two, differently signed, zero values: <span
+class="math inline">\(-0\)</span> and <span
+class="math inline">\(0\)</span>.</li>
+</ul></li>
+</ul>
+<p>There are two common lengths for the fields:</p>
+<ul>
+<li><strong>single precision</strong>: <span class="math inline">\(w =
+8\)</span> and <span class="math inline">\(t = 23\)</span></li>
+<li><strong>double precision</strong>: <span class="math inline">\(w =
+11\)</span> and <span class="math inline">\(t = 52\)</span></li>
+</ul>
+<h3 id="example-decoding-a-floating-point-number">Example: Decoding a
+Floating-Point Number</h3>
+<blockquote>
+<p>Consider the following 9 bit floating-point system:</p>
+<p>Sign: 1 bit; Exponent: 3 bits; Mantissa: 5 bits</p>
+<p>Compute the decimal value of 010110111</p>
+</blockquote>
+<ul>
+<li>First, find the known values:
+<ul>
+<li><span class="math inline">\(w = 3\)</span></li>
+<li><span class="math inline">\(t = 5\)</span></li>
+<li><span class="math inline">\(p = t + 1 = 6\)</span></li>
+<li><span class="math inline">\(bias = 2^(w - 1) - 1 = 3\)</span></li>
+<li><span class="math inline">\(S = 0\)</span></li>
+<li><span class="math inline">\(T = (10111)_2 = 23\)</span></li>
+<li><span class="math inline">\(E = (101)_2 = 5\)</span></li>
+</ul></li>
+<li>Plug it into the formula:
+<ul>
+<li><span class="math inline">\(v = (-1)^S \cdot 2^{E - bias} \cdot (1 +
+2^{1 - p} \cdot T)\)</span></li>
+<li><span class="math inline">\(v = (-1)^0 \cdot 2^{5 - 3} \cdot (1 +
+2^{1 - 6} \cdot 23)\)</span></li>
+<li><span class="math inline">\(v = 1 \cdot 4 \cdot (1.71875) =
+6.875\)</span></li>
+</ul></li>
+</ul>
+<h3 id="example-encoding-a-floating-point-number">Example: Encoding a
+Floating-Point Number</h3>
+<blockquote>
+<p>Encode the decimal value of -10.75 into a single precision
+floating-point number.</p>
+</blockquote>
+<ol type="1">
+<li>Identify the sign:
+<ul>
+<li><span class="math inline">\(S = 1\)</span></li>
+</ul></li>
+<li>Convert the integer part:
+<ul>
+<li><span class="math inline">\((10)_{10} = (1010)_2\)</span></li>
+</ul></li>
+<li>Convert the fractional part:
+<ol type="1">
+<li>Multiply the fractional part repeatedly by 2.</li>
+<li>Keep track of the integer part of the result.</li>
+<li>Stop when the fractional part is 0.</li>
+</ol>
+<ul>
+<li><span class="math inline">\(0.75 \cdot 2 = 1.5\)</span> (1)</li>
+<li><span class="math inline">\(0.5 \cdot 2 = 1\)</span> (1)</li>
+<li>thus <span class="math inline">\((0.75)_{10} =
+(0.11)_2\)</span></li>
+</ul></li>
+<li>Positive number before normalization:
+<ul>
+<li><span class="math inline">\((10.2)_{10} = (1010.11)_2\)</span></li>
+</ul></li>
+<li>Normalize and get the exponent
+<ul>
+<li><span class="math inline">\((1010.11)_2 = (1.01011)_2 \cdot
+(2^3)_{10}\)</span></li>
+<li>Thus the trailing significand is <span
+class="math inline">\((01011)_2\)</span></li>
+<li><span class="math inline">\(2^{E - bias} = 2^3\)</span></li>
+<li><span class="math inline">\(E - 127 = 3\)</span></li>
+<li><span class="math inline">\(E = 127 + 3 = (130)_{10} =
+(10000010)_2\)</span></li>
+</ul></li>
+<li>Construct the floating point number
+<ul>
+<li>&lt;sign&gt; &lt;exponent&gt; &lt;mantissa&gt;</li>
+<li>1 10000010 01011000000000000000000</li>
+</ul></li>
+</ol>
+<h1 id="implementation-of-number-systems-in-c">Implementation of Number
+Systems in C</h1>
+<h1 id="logic-gates-and-logic-levels">Logic Gates and Logic Levels</h1>
+<h1
+id="transistors-nmos-and-cmos-logic-gates-power-consumption">Transistors,
+nMOS and CMOS logic gates, power consumption</h1>
+<h2 id="mosfet-transistors">Mosfet Transistors</h2>
+<ul>
+<li>Transistors are basically small electronic switches and are thus
+used to implement logic gates.</li>
+<li>We’re focusing on <strong>metal-oxide semiconductor field-effect
+transistors</strong> (MOSFETs) because they are the most common type of
+transistor.
+<ul>
+<li>Use a field effect to switch, working on a voltage level.</li>
+</ul></li>
+</ul>
+<p><img
+src="https://www.allaboutcircuits.com/uploads/articles/techart_symbols2_5.JPG"
+width="200" /></p>
+<ul>
+<li>The gate controls the switching of the transistor depending on the
+voltage level over the gate.</li>
+<li>nMOS is on when a voltage is applied to the gate.
+<ul>
+<li>When gate is zero, open circuit between source and drain.</li>
+<li>When gate is one, closed circuit between source and drain.</li>
+</ul></li>
+<li>pMOS is off when a voltage is applied to the gate. (as indicated by
+the bubble on the gate)
+<ul>
+<li>When gate is zero, closed circuit between source and drain.</li>
+<li>When gate is one, open circuit between source and drain.</li>
+</ul></li>
+<li>The voltage required to switch the transistor is called the
+<strong>threshold voltage</strong>, <span
+class="math inline">\(V_t\)</span>, and is typically between 0.3 to 0.7
+V.</li>
+</ul>
+<h2 id="cmos-transistors">CMOS Transistors</h2>
+<ul>
+<li>nMOS pass 0’s well, but pMOS pass 1’s well.</li>
+<li>Therefore logic gates are build using a combination of nMOS and pMOS
+transistors.</li>
+<li>This is called a <strong>complementary mos</strong> (CMOS)
+transistor.</li>
+<li>The CMOS transistors are used to implement logic gates.</li>
+</ul>
+<h2 id="not-gate-built-with-an-nmos-transistor">NOT gate built with an
+nMOS transistor</h2>
+<p><img src="./assets/not_nmos.jpeg" width="400" /></p>
+<ul>
+<li>R is a pull-up resistor.
+<ul>
+<li>In the case that the gate is closed, the resistor provides a voltage
+drop by allowing current to flow through it to ground.</li>
+<li>In the case that the gate is open, all current flow to the output,
+however, there is negligible current flow to the output. Causing almost
+no voltage drop.</li>
+</ul></li>
+<li>In case where <span class="math inline">\(V_x = 5V\)</span>, the
+input is 1 and <span class="math inline">\(V_f = 0V\)</span>, the output
+is 0.</li>
+<li>In case where <span class="math inline">\(V_x = 0V\)</span>, the
+input is 0 and <span class="math inline">\(V_f = 5V\)</span>, the output
+is 1.</li>
+</ul>
+<h2 id="nand-gate-using-an-nmos-transistors">NAND gate using an nMOS
+transistors</h2>
+<p><img src="./assets/nand_nmos.jpeg" width="650" /></p>
+<ul>
+<li>If both gates are closed, the resistor will be shorted to ground,
+causing <span class="math inline">\(V_f = 0V\)</span>.</li>
+<li>If either one is not closed, the resistor will not be connected to
+ground and thus no current will flow causing <span
+class="math inline">\(V_f = 5V\)</span>.</li>
+</ul>
+<h2 id="and-gate-built-with-an-nmos-transistors">AND gate built with an
+nMOS transistors</h2>
+<p><img src="./assets/and_nmos.jpeg" width="650" /></p>
+<ul>
+<li>An and gate is just an nand and not gate connected together.</li>
+<li>Since the transistors have high input impedance, the voltage does
+not drop between the two parts.</li>
+</ul>
+<h2 id="nor-gate-built-with-an-nmos-transistors">NOR gate built with an
+nMOS transistors</h2>
+<p><img src="./assets/nor_nmos.jpeg" width="650" /></p>
+<ul>
+<li>Like an and gate but connected in parrallel instead of in series.
+Thus current can flow in two possible paths, meaning either path or both
+can be high to cause a voltage drop on the resistor. Thus <span
+class="math inline">\(V_f = 0V\)</span>. If both are off the resistor
+wont be shorted to ground and thus no current will flow causing <span
+class="math inline">\(V_f = 5V\)</span>.</li>
+</ul>
+<h2 id="or-gate-built-with-an-nmos-transistors">OR gate built with an
+nMOS transistors</h2>
+<p><img src="./assets/or_nmos.jpeg" width="650" /></p>
+<ul>
+<li>An or gate is an nor gate connected to a not gate.</li>
+</ul>
+<h2 id="cmos-logic-gates">CMOS Logic Gates</h2>
+<ul>
+<li><p>nMOS uses transistor to pull low and resistor to pull
+low.</p></li>
+<li><p>pMOS uses transistor to pull high and resistor to pull
+low.</p></li>
+<li><p>This causes power to be dissapated by the resistor, which is a
+problem.</p></li>
+<li><p>CMOS transistors use a combination of nMOS and pMOS
+transistors.</p>
+<ul>
+<li>nMOS is used to pull low and pMOS is used to pull high. This is
+called a <strong>complimentary pair</strong>.</li>
+<li>Special care must be taken to prevent both from being open to
+prevent <span class="math inline">\(V_dd\)</span> short to ground.</li>
+</ul></li>
+<li><p>This causes almost now current to flow through the component when
+in a steady state. Meaning almost no power is being dissipated.</p></li>
+</ul>
+<p><img src="./assets/cmos.png" width="650" /></p>
+<h2 id="cmos-not-gate">CMOS NOT gate</h2>
+<p><img src="./assets/cmos_not.png" width="500" /></p>
+<ul>
+<li>The CMOS NOT gate is a CMOS gate that is built using a complimentary
+pair of nMOS and pMOS transistors.</li>
+<li>If <span class="math inline">\(V_x = 0\)</span>, <span
+class="math inline">\(T_1\)</span> is on and <span
+class="math inline">\(T_2\)</span> is off. Since <span
+class="math inline">\(T_1\)</span> is on, <span
+class="math inline">\(V_f = V_{DD}\)</span> as it is pulled up to <span
+class="math inline">\(V_{DD}\)</span>.</li>
+<li>If <span class="math inline">\(V_x = 1\)</span>, <span
+class="math inline">\(T_1\)</span> is off and <span
+class="math inline">\(T_2\)</span> is on. Since <span
+class="math inline">\(T_2\)</span> is on, <span
+class="math inline">\(V_f = 0\)</span> as it is pulled down to
+ground.</li>
+</ul>
+<h2 id="cmos-nand-gate">CMOS NAND gate</h2>
+<p><img src="./assets/cmos_nand.png" width="650" /></p>
+<ul>
+<li><span class="math inline">\(T_3\)</span> and <span
+class="math inline">\(T_4\)</span> are the same as the nMOS
+implementation of an nand gate, <strong>both</strong> must be high to
+<strong>pull the output <span class="math inline">\(V_f\)</span>
+low</strong>. However, we need to replace the resistor with a
+complimentary pair of nMOS and pMOS transistors.</li>
+<li>Since it is a <strong>complimentary</strong> pair, can deduce that
+the <strong>oposite</strong> must be true for the pull high conditions.
+Meaning <strong>either</strong> <span class="math inline">\(T_1\)</span>
+or <span class="math inline">\(T_2\)</span> must be low to <strong>pull
+the output <span class="math inline">\(V_f\)</span> high</strong>.</li>
+<li>Also since they are opposite, there is always one condition met
+preventing a short to ground. When pulling high we are never also
+pulling low!</li>
+</ul>
+<h2 id="cmos-and-gate">CMOS AND gate</h2>
+<p><img src="./assets/cmos_and.png" width="300" /></p>
+<ul>
+<li>NAND gate connected to a NOT gate.</li>
+</ul>
+<h2 id="cmos-nor-gate">CMOS NOR gate</h2>
+<p><img src="./assets/cmos_nor.png" width="650" /></p>
+<ul>
+<li>Again similar to the NOR gate in the nMOS implementation, but with a
+complimentary pair of nMOS and pMOS transistors to replace the
+resistor.</li>
+<li>In the case where output pulled high, <strong>either</strong> <span
+class="math inline">\(V_3\)</span> or <span
+class="math inline">\(V_4\)</span> must be <strong>high</strong> to pull
+the output <span class="math inline">\(V_f\)</span>
+<strong>low</strong>.</li>
+<li>The <strong>compliment</strong> of this is that
+<strong>both</strong> <span class="math inline">\(T_1\)</span> and <span
+class="math inline">\(T_2\)</span> must be <strong>low</strong> to pull
+the output <span class="math inline">\(V_f\)</span>
+<strong>high</strong>.</li>
+</ul>
+<h2 id="cmos-or-gate">CMOS OR gate</h2>
+<p><img src="./assets/cmos_or.png" width="300" /></p>
+<ul>
+<li>NOR gate connected to a NOT gate.</li>
+</ul>
+<h2 id="short-circuits-and-floats">Short Circuits and Floats</h2>
+<ul>
+<li>If both the pull up and pull down networks are on at the same time a
+<strong>short circuit</strong> will exist between <span
+class="math inline">\(V_{DD}\)</span> and GND which could destroy the
+transistors which will consume a lot of power.</li>
+<li>If both the pull up and pull down networks are off at the same time
+a <strong>float</strong> will exist since the output is not connected
+<span class="math inline">\(V_{DD}\)</span> or GND.</li>
+<li>We prevent this by using the rule of <strong>conduction
+complements</strong>.
+<ul>
+<li>When the nMOS transistors are in series, the pMOS transistors must
+be in parallel and vice versa.</li>
+</ul></li>
+</ul>
+<h2 id="power-consumption">Power Consumption</h2>
+<ul>
+<li>Energy used per unit time.</li>
+<li>Performance per watt is important and should not be overlooked.</li>
+<li>Digital systems draw both <strong>static</strong> (power used in
+steady state) and <strong>dynamic</strong> (power consumed while
+changing state) power.</li>
+<li>Logic gates have capacitance, and thus the switch is not instant and
+consumes power in so doing.</li>
+<li>The energy consumed to change capacitance <span
+class="math inline">\(C\)</span> to voltage <span
+class="math inline">\(V_{DD}\)</span> is <span class="math inline">\(C
+\cdot V_{DD}^2\)</span></li>
+<li>If the voltage on the capcitor switches at frequency <span
+class="math inline">\(f\)</span>
+<ul>
+<li>Charges and and drains the capacitor <span
+class="math inline">\(f/2\)</span> times per second.</li>
+<li>Dynamic power consumption is <span class="math inline">\(P_{dynamic}
+= \dfrac{1}{2} \cdot C \cdot V_{DD}^2 \cdot f\)</span> watts.</li>
+</ul></li>
+<li>Idle circuits still leak small amoint of current, called
+<strong>leakage currant</strong> or <strong>quiescent supply
+current</strong> <span class="math inline">\(I_{DD}\)</span> flowing
+from <span class="math inline">\(V_{DD}\)</span> to GND.
+<ul>
+<li>Static power consumption is <span class="math inline">\(P_{static} =
+I_{DD} \cdot V_{DD}\)</span> watts.</li>
+</ul></li>
+</ul>
+<h1 id="combinational-logic">Combinational logic</h1>
+<h1 id="boolean-algebra">Boolean algebra</h1>
+<h1 id="from-logic-gates-to-multilevel-combinational-logic">From logic
+gates to multilevel combinational logic</h1>
+<h1 id="xs-and-zs">X’s and Z’s</h1>
+<h2 id="illegal-x">Illegal X</h2>
+<ul>
+<li>Boolean algebra is limited to to O’s and 1’s.</li>
+<li>Real circuits may have illegal states.</li>
+<li>The symbol <span class="math inline">\(X\)</span> indicates that the
+circuit node has an <strong>unknown</strong> or <strong>illegal</strong>
+state.</li>
+<li>This happens if it is being driven to both 1 and 0 simultaneously.
+This is called <strong>contention</strong>.
+<ul>
+<li>The value is somewhere in between the two values. (0 and <span
+class="math inline">\(V_{DD}\)</span>)</li>
+<li>It is often in the forbidden zone.</li>
+<li>This causes a lot of power to flow between the gates which may
+damage the transistors.</li>
+</ul></li>
+</ul>
+<h2 id="dont-care-x">Don’t Care X</h2>
+<ul>
+<li>Confusingly the symbol <span class="math inline">\(X\)</span> may
+also be used to indicate <strong>don’t care</strong> values in truth
+tables.
+<ul>
+<li>When in truth table, it indicates the value is unimportant and may
+be any state (0 or 1)</li>
+<li>BUT when in a circuit, it will indicate an <strong>illegal
+state</strong>.</li>
+</ul></li>
+</ul>
+<h2 id="floating-value-z">Floating Value Z</h2>
+<ul>
+<li>The symbol <span class="math inline">\(Z\)</span> is used to
+indicate the node is not driven to HIGH or LOW.
+<ul>
+<li>This is called a <strong>floating value</strong>, <strong>high
+impedance</strong> or <strong>high Z</strong>.</li>
+<li>Floating value can have any value <span
+class="math inline">\(\left[0, V_{DD}\right]\)</span></li>
+</ul></li>
+<li>Causes erratic behavior in the circuit as bit is randomly
+changing.</li>
+</ul>
+<h1 id="tristate">Tristate</h1>
+<ul>
+<li><strong>Tristate</strong> is a 3-state logic.
+<ul>
+<li>Driven HIGH (1)</li>
+<li>Driven LOW (0)</li>
+<li>Floating (Z)</li>
+</ul></li>
+<li>When it is floating, it can accept input (0 or 1) from external
+sources.</li>
+<li><strong>High impedance</strong> means the node is electrically
+removed from the circuit <span class="math inline">\(R \to
+\infty\)</span></li>
+<li>The <strong>tristate buffer</strong> controls whether the signal is
+enabled (0 or 1) or inactive (Z).</li>
+</ul>
+<p><img src="./assets/tristate_buffer.png" width="300" /></p>
+<p>Useful for shared databus to pick which device is using the databus
+at this time.</p>
+<p><img src="./assets/tristate_shared_bus.png" width="300" /></p>
+<h1 id="karnaugh-maps">Karnaugh maps</h1>
+<ul>
+<li>We’ve synthesized logic circuits uisng sum-of-products (SOP) and
+product-of-sums (POS).</li>
+<li>These implementations are not necessarily optimal.</li>
+<li>Previously we did these optimizations manually using boolean
+algebra.</li>
+<li><strong>Karnaugh maps (K-maps)</strong> are graphical method for
+simplifying boolean equations.</li>
+<li>We use CAD tools in practice to simplify the equations
+automatically.</li>
+<li>K-maps are only really useful when the number of inputs are less
+than 5.</li>
+</ul>
+<p>Karnaugh maps are built on two principles:</p>
+<ul>
+<li><strong>T10</strong>: <span class="math inline">\(P A + P
+\overline{A} = P\)</span>
+<ul>
+<li>This allows us to replace two product terms differing with one value
+with a single product that does not include the value. (ie. we can
+eliminate <span class="math inline">\(A\)</span>)</li>
+</ul></li>
+<li><strong>Gray codes</strong>
+<ul>
+<li>Uses a sequence of bit where only one bit changes from one state to
+the next.</li>
+</ul></li>
+</ul>
+<h2 id="k-maps-three-input-example">K-maps three-input example</h2>
+<ul>
+<li>The top row of a K-map gives us 4 possible values for input <span
+class="math inline">\(A\)</span> and $B using gray codes (00, 01, 11,
+10).</li>
+<li>The left column gives us the 2 possible values for input <span
+class="math inline">\(C\)</span>.</li>
+<li>Each square in a K-map corsponds to a row in the truth table and
+contains the value of the output.</li>
+</ul>
+<p><img src="./assets/k_map_3.png" width="700" /></p>
+<p>Using algebra we would have gotten <span class="math inline">\(Y =
+\overline{A} \cdot \overline{B} \cdot \overline{C} + \overline{A} \cdot
+\overline{B} \cdot C = \overline{A} \cdot \overline{B}
+\cdot(\overline{C} + C) = \overline{A} \cdot \overline{B}\)</span></p>
+<h2 id="gray-codes">Gray codes</h2>
+<ul>
+<li>Each square or midterm differs from an adjacent square by one
+bit.</li>
+<li>Each adjacent square shares the same literls exept for one.</li>
+<li>That’s the reason for the peculiar order: 00 01 11 10.</li>
+<li>Furthermore K-maps wrap around to form a torus, since the squares on
+the far right differs from the far left by one bit and the top from the
+bottom by one bit.</li>
+</ul>
+<p><img src="./assets/k_map_torus.png" width="500" /></p>
+<h2 id="k-map-minimization">K-map minimization</h2>
+<ul>
+<li>Group 1’s in adjacent squares (rows and colums but not diagonals) on
+a k-map using the fewest groups possible.</li>
+<li>For each group, we write the product of the implicants.
+<ul>
+<li>remember: implicant is product of one or more literal</li>
+</ul></li>
+<li>Variables whose true and complementary forms are both in the group
+are eliminated.
+<ul>
+<li>This means that if both <span class="math inline">\(C\)</span> and
+<span class="math inline">\(\overline{C}\)</span> are in the group, we
+can eliminate <span class="math inline">\(A\)</span> from the equation
+as seen below.</li>
+</ul></li>
+</ul>
+<p><img src="./assets/k_map_simpl_3.png" width="700" /></p>
+<ul>
+<li>we add the all the implicants of the groups together with an
+or.</li>
+</ul>
+<h3 id="rules-for-minimization">Rules for minimization</h3>
+<ul>
+<li>Use the smallest number of groups possible.</li>
+<li>All groups must only contain 1’s.</li>
+<li>Groups must be rectangular block that is a power of 2. (sides of
+length <span class="math inline">\(2^n\)</span>, ie. 1, 2, 4 etc.)</li>
+<li>Each group must be as large as possible.</li>
+<li>A square may be contained in multiple groups if so doing results in
+less groups.</li>
+</ul>
+<p><strong>See also:</strong> Handwritten notes that may help with the
+minimization process.</p>
+<h4 id="aside-karnaugh-maps-for-4-input-logic">Aside: Karnaugh maps for
+4-input logic</h4>
+<p><img src="./assets/k_map_4.png" width="400" /></p>
+<h2 id="incompletely-specified-functions">Incompletely specified
+functions</h2>
+<ul>
+<li>In digital systems, often certain conditions can not occur.
+<ul>
+<li>Input conditions that can never occur can be ignored and the outputs
+are called don’t care (indicated by <span
+class="math inline">\(X\)</span>).</li>
+</ul></li>
+<li>A function with “don’t cares” is an <strong>incompletely specified
+function</strong>.</li>
+<li>Such outputs can be treated as either 0 or 1, whichever makes
+simplification easier.</li>
+</ul>
+<h3 id="seven-segment-display-with-dont-cares">Seven-segment display
+with don’t cares</h3>
+<ul>
+<li>The 7-segment display is a common example of an incompletely
+specified function.</li>
+<li>The display is a binary number that can be represented by 7
+segments.</li>
+<li>The display can be represented by the following truth table:</li>
+</ul>
+<p><img src="./assets/7_truth.png" width="600" /></p>
+<p>This is a <strong>decimal decoder</strong> not an <strong>hexadecimal
+decoder</strong>.</p>
+<p>If we group the don’t cares, we can simplify the equation futher than
+assuming they are 0’s:</p>
+<p><img src="./assets/7_k_map.png" width="600" /></p>
+<p><strong>Note:</strong> This can get tricky, you must make sure you’re
+using the least amount of groups possible.</p>
+<p>We need to design 7 individual circuits for each output.</p>
+<p><img src="./assets/7_k_map_2.png" width="300" /></p>
+<h1 id="combinational-building-blocks">Combinational Building
+Blocks</h1>
+<ul>
+<li>Combinational logic is often grouped into building blocks for larger
+circuits.</li>
+<li>This way we can <strong>abstract</strong> the logic and make it
+easier to understand. Hiding the implementation details and emphasizing
+the function.</li>
+<li>We’ve already looked at some examples:
+<ul>
+<li>Priority circuits</li>
+<li>Seven-segment display decimal decoder</li>
+</ul></li>
+</ul>
+<h1 id="multiple-output-functions">Multiple Output Functions</h1>
+<ul>
+<li>Practical digital circuits often implement many single output
+functions.</li>
+<li>Each function may be implemented with its own circuit, but is often
+not the minimum cost implementation of the whole circuit.
+<ul>
+<li>Sometimes we have duplicate product terms that may share the same
+output.</li>
+<li>Using K-maps we can easily identify these shared terms.</li>
+</ul></li>
+</ul>
+<p><strong>Notice:</strong> The cost is the sum of the inputs and the
+gates</p>
+<p><img src="./assets/mult_out.png" width="500" /></p>
+<ul>
+<li>Total cost = 28 (4 gates + 10 inputs x 2 circuits)</li>
+<li>However we can see the <span class="math inline">\(x_1 \cdot
+\overline{x_2}\)</span> and <span class="math inline">\(\overline{x_1}
+\cdot x_3\)</span> term is shared between the two circuits when
+implementing the logic.</li>
+</ul>
+<p><img src="./assets/mult_logic.png" width="450" /></p>
+<ul>
+<li>Total cost = 22 (6 gates + 16 inputs)</li>
+</ul>
+<p>Sometimes the best individual solutions are not the best overall
+solution.</p>
+<p><img src="./assets/mult_optim.png" width="500" /></p>
+<ul>
+<li>With optimal solutions, for the individual functions we have no
+shared product terms.</li>
+<li>Total cost = 29 (8 gates and 21 inputs)</li>
+</ul>
+<p>However, finding an non optimal solution with shared product terms
+might be better in the bigger picture, so don’t dismiss it in favor of
+the optimal individual solutions.</p>
+<p><img src="./assets/mult_shared.png" width="500" /></p>
+<ul>
+<li>These realisations although not optimal share the product terms
+<span class="math inline">\(x_1 \cdot x_2 \cdot x_3\)</span> and <span
+class="math inline">\(\overline{x_1} \cdot x_2 \cdot x_3 \cdot
+\overline{x_4}\)</span>.</li>
+</ul>
+<p><img src="./assets/mult_shared_diag.png" width="500" /></p>
+<ul>
+<li>Total cost = 23 (6 gates and 17 inputs)</li>
+</ul>
+<h1 id="multiplexers">Multiplexers</h1>
+<p><strong>Multiplexers</strong> are used to select between two or more
+inputs to a single output.</p>
+<p>A 2-to-1 (2:1) multiplexer:</p>
+<p><img src="./assets/mux_2_1.png" width="300" /></p>
+<p><span class="math inline">\(S\)</span> is also called the
+<strong>control signal</strong>, since it controls the state of the
+multiplexer.</p>
+<p>We call multiplexers <strong>muxes</strong> for short.</p>
+<h2 id="multiplexer-implementation">2:1 Multiplexer implementation</h2>
+<ul>
+<li>The sum-of-products (SOP) implementation of a 2:1 multiplexer is
+shown below.</li>
+</ul>
+<p><img src="./assets/sop_mux.png" width="300" /></p>
+<h2 id="wider-multiplexers">Wider Multiplexers</h2>
+<ul>
+<li>A 4:1 multiplexer has four inputs and one output.</li>
+<li>Generally the number of inputs is an integer (<span
+class="math inline">\(N\)</span>) power of 2, <span
+class="math inline">\(2^N\)</span>.</li>
+<li>An N:1 multiplexer needs <span
+class="math inline">\(\log_2{N}\)</span> inputs and one output.</li>
+</ul>
+<p>Wider multiplexers can be built using SOP logic or multiple smaller
+multiplexers.</p>
+<p>For example an 4:1 mux can be implemented using only 2:1 muxes as
+shown below.</p>
+<p><img src="./assets/4_1_mux_2_1_mux.png" width="600" /></p>
+<p>The AND gates essentially act as selectors. They enable the passage
+of data bit <span class="math inline">\(D_N\)</span> only if the all the
+other inputs to the AND gate are HIGH. (You can think of all the other
+inputs as the control signals, and all the control signals must be 1 to
+pass through <span class="math inline">\(D_N\)</span>.) Only one AND
+gate is enabled at a time and the OR gate thus only passes though the
+selected data bit <span class="math inline">\(D_N\)</span>.</p>
+<h2 id="multiplexer-logic">Multiplexer logic</h2>
+<ul>
+<li>Multiplexers can be used as <strong>lookup tables</strong> to
+implement any logic function.</li>
+<li>The implementation is easy to understand and implement, but not the
+most efficient for minimizing the cost.</li>
+</ul>
+<p>For example we can use a 4:1 mux to implement an two input AND
+gate.</p>
+<p><img src="./assets/4_1_and.png" width="400" /></p>
+<p>If we’re smart enough we can reduce the size of the mux by half.</p>
+<ul>
+<li>Any <span class="math inline">\(N\)</span>-input logic function can
+be implemented using an <span
+class="math inline">\(2^{N-1}\)</span>-input mux.
+<ul>
+<li>We rewrite the truth tables to by combining pairs of rows that
+eliminate the right most input by expressing the output in terms of this
+variable.</li>
+<li>We use this grouped input as the select input to the mux and the
+remaining inputs as the data inputs (also with 0’s and 1’s)</li>
+</ul></li>
+</ul>
+<p><img src="./assets/mux_logic.png" width="600" /></p>
+<h3 id="example-three-input-xor-function-with-21-muxes">Example: Three
+input XOR function with 2:1 muxes</h3>
+<ul>
+<li>Make groups of input conditions.
+<ul>
+<li>Split into 2 blocks where <span class="math inline">\(w_1 =
+0\)</span> and <span class="math inline">\(w_1 = 1\)</span>
+<ul>
+<li>You can notice that if you ignore the <span
+class="math inline">\(w_1 = 0\)</span> input, the other inputs is an XOR
+gate.</li>
+<li>And if you ignore the <span class="math inline">\(w_1 = 1\)</span>
+input, the other inputs is an NOT XOR gate.</li>
+</ul></li>
+</ul></li>
+</ul>
+<p><img src="./assets/3_mux_xor.png" width="600" /></p>
+<p>Since we’re using 2:1 muxes, we eliminated just one input.</p>
+<h3 id="example-three-input-xor-gate-with-41-muxes">Example: Three input
+XOR gate with 4:1 muxes</h3>
+<p>By using 4:1 muxes we can eliminate two inputs.</p>
+<ul>
+<li>We will make 4 groups thus:
+<ul>
+<li><span class="math inline">\(w_1 = 0\)</span> and <span
+class="math inline">\(w_2 = 0\)</span> and notice that <span
+class="math inline">\(f = w_3\)</span></li>
+<li><span class="math inline">\(w_1 = 0\)</span> and <span
+class="math inline">\(w_2 = 1\)</span> and notice that <span
+class="math inline">\(f = \overline{w_3}\)</span></li>
+<li><span class="math inline">\(w_1 = 1\)</span> and <span
+class="math inline">\(w_2 = 0\)</span> and notice that <span
+class="math inline">\(f = \overline{w_3}\)</span></li>
+<li><span class="math inline">\(w_1 = 1\)</span> and <span
+class="math inline">\(w_2 = 1\)</span> and notice that <span
+class="math inline">\(f = w_3\)</span></li>
+</ul></li>
+</ul>
+<h3 id="example-three-input-majority-function-with-a-21-mux">Example:
+Three input majority function with a 2:1 mux</h3>
+<ul>
+<li>A majority function checks that at least half of the inputs are
+HIGH.
+<ul>
+<li>If the majority is found, the output is HIGH.</li>
+<li>If the majority is not found, the output is LOW.</li>
+</ul></li>
+<li>We can implement this using a 2:1 mux as shown below.</li>
+</ul>
+<p><img src="./assets/majority_2_1.png" width="600" /></p>
+<p>This implementation can also be derived algebraically:</p>
+<ul>
+<li>Sum of products: <span class="math inline">\(f = \overline{w_1}
+\cdot w_2 \cdot w_3 + w_1 \cdot \overline{w_2} \cdot w_3 + w_1 \cdot w_2
+\cdot \overline{w_3} + w_1 \cdot w_2 \cdot w_3\)</span></li>
+<li>Which can be manipulated into:
+<ul>
+<li><span class="math inline">\(f = \overline{w_1} \cdot w_2 \cdot w_3 +
+w_1 \cdot (\overline{w_2} \cdot w_3 + w_2 \cdot \overline{w_3} + w_2
+\cdot w_3)\)</span>
+<ul>
+<li>We’ve essentially created a mux, since the one implicant has <span
+class="math inline">\(\overline{w_1}\)</span> and the other term has
+<span class="math inline">\(w_1\)</span>. We’re selecting <span
+class="math inline">\(w_2 \cdot w_3\)</span> if <span
+class="math inline">\(w_1 = 0\)</span> and <span
+class="math inline">\(\overline{w_2} \cdot w_3 + w_2 \cdot
+\overline{w_3} + w_2 \cdot w_3\)</span> if <span
+class="math inline">\(w_1 = 1\)</span>.</li>
+</ul></li>
+<li><span class="math inline">\(f = \overline{w_1} \cdot w_2 \cdot w_3 +
+w_1 \cdot (\overline{w_2} \cdot w_3 + w_2 \cdot \overline{w_3} + w_2
+\cdot w_3 + w_2 \cdot w_3)\)</span>
+<ul>
+<li>We expand the term <span class="math inline">\(\overline{w_2} \cdot
+w_3 + w_2 \cdot \overline{w_3} + w_2 \cdot w_3\)</span> by adding <span
+class="math inline">\(w_2 \cdot w_3\)</span>. This is part of
+<strong>shannon expansion</strong>.</li>
+</ul></li>
+<li><span class="math inline">\(f = \overline{w_1} \cdot w_2 \cdot w_3 +
+w_1 \cdot \left[(\overline{w_2} + w_2) \cdot w_3 + (\overline{w_3} +
+w_3) \cdot w_2)\right]\)</span></li>
+<li><span class="math inline">\(f = \overline{w_1} \cdot (w_2 \cdot w_3)
++ w_1 \cdot (w_3 + w_2)\)</span>
+<ul>
+<li>Here we have our final 2:1 multiplexer. Where <span
+class="math inline">\(w_1 = 0\)</span> selects <span
+class="math inline">\(w_2 \cdot w_3\)</span> and <span
+class="math inline">\(w_1 = 1\)</span> selects <span
+class="math inline">\(w_3 + w_2\)</span>.</li>
+</ul></li>
+</ul></li>
+</ul>
+<h3 id="example-three-input-majority-function-with-41-mux">Example:
+Three input majority function with 4:1 mux</h3>
+<p>4:1 mux has 2 select lines and we thus need to make groups of the two
+columns.</p>
+<ul>
+<li><span class="math inline">\(w_1 = 0\)</span> and <span
+class="math inline">\(w_2 = 0\)</span> and notice that <span
+class="math inline">\(f = 0\)</span></li>
+<li><span class="math inline">\(w_1 = 0\)</span> and <span
+class="math inline">\(w_2 = 1\)</span> and notice that <span
+class="math inline">\(f = w_3\)</span></li>
+<li><span class="math inline">\(w_1 = 1\)</span> and <span
+class="math inline">\(w_2 = 0\)</span> and notice that <span
+class="math inline">\(f = w_3\)</span></li>
+<li><span class="math inline">\(w_1 = 1\)</span> and <span
+class="math inline">\(w_2 = 1\)</span> and notice that <span
+class="math inline">\(f = 1\)</span></li>
+</ul>
+<p><img src="./assets/majority_4_1.png" width="600" /></p>
+<h1 id="shannons-expansion-theorem">Shannon’s Expansion Theorem</h1>
+<p>It says any boolean function with a certain number of input variables
+can be written in a multiplexer form.</p>
+<p><span class="math inline">\(f(w_1, w_2, ..., w_n) = \overline{w_1}
+\cdot f(0, w_2, ..., w_n) + w_1 \cdot f(1, w_2, ..., w_n)\)</span></p>
+<p>or</p>
+<p><span class="math inline">\(f(w_1, w_2, ..., w_n) = \overline{w_1}
+\cdot f_{\overline{w_1}} + w_1 \cdot f_{w_1}\)</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(f_{\overline{w_1}}\)</span> is called
+the cofactor of <span class="math inline">\(f\)</span> with respect to
+<span class="math inline">\(\overline{w_1}\)</span></li>
+<li><span class="math inline">\(f_{w_1}\)</span> is called the cofactor
+of <span class="math inline">\(f\)</span> with respect to <span
+class="math inline">\(w_1\)</span>.</li>
+</ul>
+<p><strong>Now see additional handwritten notes since it’s a lot of math
+I’m not gonna write with LaTeX.</strong></p>
+<h1 id="one-hot">One-hot</h1>
+<p><strong>One-hot</strong> is a group of bits among which the legal
+combinations of values are only those with a single high (1) bit and all
+the others low (0).</p>
+<p>This means only one bit is high at a time.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Binary</th>
+<th style="text-align: center;">Gray Code</th>
+<th style="text-align: center;">One-hot</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">000</td>
+<td style="text-align: center;">000</td>
+<td style="text-align: center;">00000001</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">001</td>
+<td style="text-align: center;">001</td>
+<td style="text-align: center;">00000010</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">010</td>
+<td style="text-align: center;">011</td>
+<td style="text-align: center;">00000100</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">011</td>
+<td style="text-align: center;">010</td>
+<td style="text-align: center;">00001000</td>
+</tr>
+</tbody>
+</table>
+<h1 id="binary-decoders">Binary Decoders</h1>
+<ul>
+<li>Decoder circuits are used to decode encoded data.</li>
+<li>A binary decoder as <span class="math inline">\(N\)</span> inputs
+and <span class="math inline">\(2^N\)</span> outputs. An optional enable
+input can be used to enable the decoder.</li>
+</ul>
+<p><img src="./assets/decoder_binary.png" width="400" /></p>
+<ul>
+<li>An output line is high only when the binary input is equal to the
+index of the output line (i.e. one-hot encoded output).</li>
+<li>The enavle line is used to enable the outputs. If <span
+class="math inline">\(En = 0\)</span> then all outputs are low.</li>
+</ul>
+<h2 id="decoders-2-to-4-24-binary-decoder">Decoders: 2-to-4 (2:4) binary
+decoder</h2>
+<p><img src="./assets/dec_2_4.png" width="500" /></p>
+<ul>
+<li><p>The two inputs represent a 2 bit number which the decoder uses to
+assert one of the four outputs.</p></li>
+<li><p>This converts a 2 bit binary number into a 4 bit one-hot encoded
+output.</p></li>
+<li><p>It may be implemented using sum of products as shown
+below.</p></li>
+</ul>
+<p><img src="./assets/sop_dec_2_4.png" width="400" /></p>
+<ul>
+<li>Similar to the multiplexer implementation, the binary decoder does
+not pass a data bit through but instead passes a high. (think of it as
+all the data bits being high).</li>
+</ul>
+<h2 id="decoders-3-to-8-38-binary-decoder">Decoders: 3-to-8 (3:8) binary
+decoder</h2>
+<ul>
+<li>A 3:8 decoder may be implemented using two 2:4 decoders as shown
+below.</li>
+</ul>
+<p><img src="./assets/dec_3_8.png" width="400" /></p>
+<ul>
+<li>We split the 3 bit binary number into two parts the 2 bit lower half
+and the last most significant bit.</li>
+<li>The most significant bit is used to select which of the two 2:4
+decoders to use.</li>
+<li>The first decoder decodes the first half of the 3 bit number and the
+second decoder decodes the second half. (000 - 011 and 100 - 111
+respectively).</li>
+</ul>
+<h2 id="decoders-4-to-16-416-binary-decoder">Decoders: 4-to-16 (4:16)
+binary decoder</h2>
+<p>We may use this method to implement decoders of any size <span
+class="math inline">\(N\)</span>-to-<span
+class="math inline">\(2^N\)</span>.</p>
+<p>See below for an example of a 4:16 decoder using only 2:4
+decoders.</p>
+<p><img src="./assets/dec_4_16.png" width="400" /></p>
+<p>We use another 2:4 decoder to handle the activation of the decoders
+via the enable line.</p>
+<h2 id="binary-decoder-applications">Binary Decoder Applications</h2>
+<ul>
+<li>Port expansion for devices with limited number outputs.</li>
+<li>Selecting memory blocks in computers (address decoding).</li>
+<li>Implementing a multiplexer and demultiplexer.</li>
+</ul>
+<p><img src="./assets/dec_mux.png" width="400" /></p>
+<ul>
+<li>Implementing logic functions using shannon expansion or direct logic
+implementation.</li>
+</ul>
+<p><img src="./assets/dec_logic.png" width="250" /></p>
+<h1 id="demultiplexers">Demultiplexers</h1>
+<ul>
+<li>Multiplexer circuits multiplexes <span
+class="math inline">\(2^N\)</span> data inputs onto a single output
+under the control of <span class="math inline">\(N\)</span> select
+lines.</li>
+<li>Demultiplexers are the inverse of multiplexers. They place the value
+of a single data input onto exactly one output line.</li>
+<li>They may be implemented using a binary decoder.</li>
+<li>For example a 2:4 decoder used as a 1:4 demultiplexer.</li>
+</ul>
+<p><img src="./assets/dec_demux.png" width="200" /></p>
+<ul>
+<li>The <span class="math inline">\(En\)</span> input serves as the data
+input and <span class="math inline">\(y_0\)</span> to <span
+class="math inline">\(y_3\)</span> are the data outputs. The value of
+<span class="math inline">\(w_1 w_2\)</span> determines which of the
+outputs is set to the value of <span
+class="math inline">\(En\)</span>.</li>
+</ul>
+<h1 id="encoders">Encoders</h1>
+<ul>
+<li>Encoders are the inverse of decoders. The convert into a more
+compact form.</li>
+<li>Binary encoders encodes <span class="math inline">\(2^N\)</span>
+inputs into a <span class="math inline">\(N\)</span> bit binary number.
+They convert a one-hot encoded input into a binary number.</li>
+</ul>
+<p><img src="./assets/enc.png" width="400" /></p>
+<ul>
+<li>Exactly one of the inputs should be high (one-hot) and the output
+presents the binary number that identifies the input which is high.</li>
+<li>Used to reduce the number of bits needed to represent data.</li>
+<li>Useful for data transmission. Encoding allows for fewer transmission
+bits.</li>
+<li>Thus also useful for storage of data, as it consumes less space
+(bits).</li>
+</ul>
+<h2 id="to-2-42-binary-encoder">4-to-2 (4:2) binary encoder</h2>
+<p><img src="./assets/enc_4_2.png" width="600" /></p>
+<ul>
+<li>We assume that the 4 inputs are one-hot encoded. All other
+combinations are illegal and treated as don’t care.</li>
+<li>The one-hot encoded inputs are converted into a binary output.</li>
+<li>The output <span class="math inline">\(y_0\)</span> is high when
+<span class="math inline">\(w_1\)</span> or <span
+class="math inline">\(w_3\)</span> is high.</li>
+<li>The output <span class="math inline">\(y_1\)</span> is high when
+<span class="math inline">\(w_2\)</span> or <span
+class="math inline">\(w_3\)</span> is high.</li>
+</ul>
+<h2 id="priority-encoders">Priority Encoders</h2>
+<p><img src="./assets/enc_priority.png" width="200" /></p>
+<ul>
+<li>The priority encoder is a special case of the 4:2 encoder.</li>
+<li>Each input has a priority associated with it.</li>
+<li>The output indicates the active input with the highest
+priority.</li>
+<li>It is assumed that the least significant bit, <span
+class="math inline">\(w_0\)</span>, is the lowest priority, and the most
+significant, <span class="math inline">\(w_3\)</span>, bit is the
+highest priority.</li>
+<li>Outputs <span class="math inline">\(y_0\)</span> and <span
+class="math inline">\(y_1\)</span> represent the binary number that
+identifies the highest priority input.</li>
+<li><span class="math inline">\(z\)</span> indicates some input is high.
+(thus it is <span class="math inline">\(z = 0\)</span> when all inputs
+are low).</li>
+</ul>
+<h1 id="timing">Timing</h1>
+<ul>
+<li>We’ve only focused on optimising ciruits cost.</li>
+<li>However, the <strong>timing</strong> of the circuits is important:
+making it run fast and correct withing a given time frame.</li>
+<li>The output takes some time to change in response to an input change:
+There is a <strong>delay</strong> for change in the output to take
+effect.</li>
+</ul>
+<p><img src="./assets/buffer_timing.png" width="300" /></p>
+<ul>
+<li>Above is called a <strong>timing diagram</strong>.
+<ul>
+<li>It portrays the transient (transitional) response of a buffer
+circuit when the input changes.</li>
+<li>Transition from LOW to HIGH is called the <strong>rising
+edge</strong>.</li>
+<li>Transition from HIGH to LOW is called the <strong>falling
+edge</strong>.</li>
+<li>The arrow shows that the response (rising edge) of <span
+class="math inline">\(Y\)</span> is caused by the input (rising edge) of
+<span class="math inline">\(A\)</span>.</li>
+</ul></li>
+<li>Delay is measured from the <strong>50% point</strong> of the input
+to the <strong>50% point</strong> of the output.
+<ul>
+<li>The 50% point is when the transition is halfway through
+completing.</li>
+</ul></li>
+</ul>
+<p>The delay is caused by capacitance and silicon material.</p>
+<h2 id="propagation-and-contamination-delay">Propagation and
+Contamination Delay</h2>
+<ul>
+<li>Combinational logic timing is characterised by its
+<strong>propagation delay</strong> and <strong>contamination
+delay</strong>.</li>
+<li>Propogation delay <span class="math inline">\(t_{pd}\)</span> is the
+maximum time from when an input changes until the output(s) reach their
+final value.</li>
+<li>Contamination delay <span class="math inline">\(t_{cd}\)</span> is
+the minimum time from when an input changes until any output starts to
+change.</li>
+</ul>
+<p><img src="./assets/prop_contam.png" width="400" /></p>
+<p>These delays are on the scale of nanoseconds (<span
+class="math inline">\(10^{-9}\)</span> seconds).</p>
+<h2 id="critical-and-shortest-path">Critical and Shortest Path</h2>
+<ul>
+<li>Timing is also affected by the path the signal takes through the
+circuit (internal logic gates).</li>
+<li>The <strong>critical path</strong> is the longest path that an input
+can take to the output.
+<ul>
+<li>It is therefore the slowest path</li>
+<li>It limits the speed of the circuit.</li>
+<li>The sum of the propagation delays along this path is the
+<strong>propagation delay</strong> of the circuit.</li>
+</ul></li>
+<li>The <strong>shortest path</strong> is the shortest path that an
+input can take to the output.
+<ul>
+<li>It is the shortest and therefore the fastest path.</li>
+<li>The sum of the contamination delays along this path is the
+<strong>contamination delay</strong> of the circuit.</li>
+</ul></li>
+</ul>
+<p><img src="./assets/critical_shortest.png" width="600" /></p>
+<h1 id="sequential-logic-circuits">Sequential Logic Circuits</h1>
+<ul>
+<li>We’ve only looked at combinational logic circuits.
+<ul>
+<li>There can be a feedback from the outside back into the circuit.</li>
+<li>Output cannot be used as an input.</li>
+<li>Information flows in a single direction.</li>
+</ul></li>
+<li>The output of combinational logic only depends on the current input
+values, i.e. there is <strong>no memory</strong>.</li>
+<li>Feedback: Has memory effect. Output depends on the current and
+previous input values.</li>
+<li>Sequential logic circuits have a <strong>memory</strong>.
+<ul>
+<li>The output depends on the current and prior input values.</li>
+<li>We say the logic has <strong>memory</strong> because it is effected
+by the previous input values.</li>
+</ul></li>
+<li>Sequential logic is stateful - it has state stored internally which
+affects the output.</li>
+<li>The <strong>state</strong> is a set bit called <strong>state
+variables</strong> which contain all the information about the past
+necessary to explain future behaviour.</li>
+<li>Over time this state changes sequentially as a result of input
+changes. Hence the name <strong>sequential logic</strong>.</li>
+</ul>
+<h1 id="bistable-elements">Bistable Elements</h1>
+<ul>
+<li>A device with two stable states. HIGH and LOW.</li>
+<li>Has a feedback loop where the output drives back into the input.
+<ul>
+<li>It latches onto the initial value by self-propagating the output
+into the input.</li>
+</ul></li>
+</ul>
+<p><img src="./assets/bistable.png" width="300" /></p>
+<ul>
+<li><p>Both these circuits are the same just drawn differently.</p></li>
+<li><p>The circuits have no inputs but two outputs <span
+class="math inline">\(Q\)</span> and <span
+class="math inline">\(\overline{Q}\)</span>.</p>
+<ul>
+<li><span class="math inline">\(Y\)</span> is commonly used for
+combinational logic circuits output, where <span
+class="math inline">\(Q\)</span> is used in sequential logic circuits
+output.</li>
+</ul></li>
+<li><p>The analysis of sequential logic is different to analysis of
+combinational logic, since it is cyclic: <span
+class="math inline">\(Q\)</span> and <span
+class="math inline">\(\overline{Q}\)</span> are interdependent.</p></li>
+<li><p>If <span class="math inline">\(Q = 0\)</span> then:</p>
+<ul>
+<li>12 receives FALSE (<span class="math inline">\(Q\)</span>) and sends
+TRUE output (<span class="math inline">\(\overline{Q}\)</span>), causing
+11 to produce FALSE (<span class="math inline">\(Q\)</span>). The
+circuit is <strong>stable</strong>.</li>
+</ul></li>
+<li><p>Likewise if <span class="math inline">\(Q = 1\)</span> then:</p>
+<ul>
+<li>12 receives TRUE (<span class="math inline">\(Q\)</span>) and sends
+FALSE output (<span class="math inline">\(\overline{Q}\)</span>),
+causing 11 to produce TRUE (<span class="math inline">\(Q\)</span>). The
+circuit is <strong>stable</strong>.</li>
+</ul></li>
+<li><p>The circuit has two different states but remains in it
+indefinitely, it is passively storing 1 bit of information.</p></li>
+<li><p>Not useful, since it lacks practival means of changing the
+state.</p></li>
+</ul>
+<h1 id="sr-latch">SR Latch</h1>
+<ul>
+<li>Instead of using two inverters we use NOR gates.
+<ul>
+<li>Now we have two inputs Set (<span class="math inline">\(S\)</span>)
+and Reset (<span class="math inline">\(R\)</span>) that provides means
+of changing the state of <span class="math inline">\(Q\)</span>.</li>
+</ul></li>
+</ul>
+<p><img src="./assets/sr_latch.png" width="200" /></p>
+<ul>
+<li>When <span class="math inline">\(S = 0\)</span> and <span
+class="math inline">\(R = 0\)</span> the latch remains in it current
+state <span class="math inline">\(Q\)</span></li>
+<li>When <span class="math inline">\(S = 1\)</span> and <span
+class="math inline">\(R = 0\)</span> the latch changes to the state
+<span class="math inline">\(Q = 1\)</span></li>
+<li>When <span class="math inline">\(S = 0\)</span> and <span
+class="math inline">\(R = 1\)</span> the latch changes to the state
+<span class="math inline">\(Q = 0\)</span></li>
+<li>When <span class="math inline">\(S = 1\)</span> and <span
+class="math inline">\(R = 1\)</span> then <span class="math inline">\(Q
+= 0\)</span> and <span class="math inline">\(\overline{Q} =
+0\)</span></li>
+</ul>
+<p>This basic latch is often called SR latch because of the Set and
+Reset inputs.</p>
+<p><img src="./assets/sr_table.png" width="350" /></p>
+<ul>
+<li>The table resembles a truth table we had for combinational logic,
+but since the outputs are not determined only by the current inputs, it
+is called a <strong>characteristic table</strong>.</li>
+</ul>
+<p><img src="./assets/sr_latch_2.png" width="700" /></p>
+<ul>
+<li>The SR Latch is also a bistable element with one bit of state stored
+in <span class="math inline">\(Q\)</span>.</li>
+<li>However it can be controlled via the <span
+class="math inline">\(S\)</span> and <span
+class="math inline">\(R\)</span> inputs.</li>
+<li>Notice that the history of inputs can be accounted for by a single
+state variable <span class="math inline">\(Q\)</span>.
+<ul>
+<li>No matter the sequence of inputs all that is needed to determine the
+output is the previous state of <span class="math inline">\(Q\)</span>
+(whether it was set or reset in the last input).</li>
+</ul></li>
+</ul>
+<h1 id="gated-sr-latch">Gated SR Latch</h1>
+<p><img src="./assets/gated_sr.png" width="700" /></p>
+<ul>
+<li>SR Latch with Enable input called clock (<span
+class="math inline">\(Clk\)</span>)
+<ul>
+<li>In digital systems the clock is used to allow changes of state at
+only fixed intervals.</li>
+</ul></li>
+<li><span class="math inline">\(Clk\)</span> acts like a gate that
+allows the SR Latch to change state.
+<ul>
+<li>When <span class="math inline">\(Clk\)</span> is HIGH the SR Latch
+may change state.</li>
+<li>When <span class="math inline">\(Clk\)</span> is LOW the SR Latch
+remains in its current state.</li>
+</ul></li>
+</ul>
+<h1 id="gated-d-latch">Gated D Latch</h1>
+<p><img src="./assets/d_latch.png" width="700" /></p>
+<ul>
+<li>SR Latches has undefined behaviour when <span
+class="math inline">\(S = 1\)</span> and <span class="math inline">\(R =
+1\)</span>.</li>
+<li><strong>Gated D Latch</strong> has a single data input <span
+class="math inline">\(D\)</span> which is stored in <span
+class="math inline">\(Q\)</span> when <span
+class="math inline">\(Clk\)</span> is HIGH.
+<ul>
+<li>While <span class="math inline">\(Clk\)</span> is high <span
+class="math inline">\(Q\)</span> reflects the value of input <span
+class="math inline">\(D\)</span>. (it is said to be
+<strong>transparent</strong>)</li>
+<li>When <span class="math inline">\(Clk\)</span> is LOW <span
+class="math inline">\(Q\)</span> is unchanged. The value of <span
+class="math inline">\(Q\)</span> is said to be <strong>opaque</strong>
+(unchanging).</li>
+</ul></li>
+<li><span class="math inline">\(D\)</span> input is mirrored at <span
+class="math inline">\(S = D\)</span> and is inverted at <span
+class="math inline">\(R = \overline{D}\)</span> when <span
+class="math inline">\(Clk = 1\)</span>.</li>
+<li>The <span class="math inline">\(S = R = 1\)</span> condition never
+occurs.</li>
+</ul>
+<p><img src="./assets/d_latch_timing.png" width="700" /></p>
+<ul>
+<li>As long as <span class="math inline">\(Clk\)</span> is HIGH the
+<span class="math inline">\(Q\)</span> output is the same as the <span
+class="math inline">\(D\)</span> input.</li>
+<li>At the falling edge of <span class="math inline">\(Clk\)</span> the
+<span class="math inline">\(Q\)</span> latches (remembers) <span
+class="math inline">\(D\)</span> until the next rising edge of <span
+class="math inline">\(Clk\)</span>.</li>
+<li>The latch is said to be <strong>level sensitive</strong>, since the
+output is controlled by the level of the clock signal.</li>
+</ul>
+<h1 id="d-flip-flop">D Flip-Flop</h1>
+<ul>
+<li>Similar to D latch, except instead of following the input while
+clock is high it samples when there is a transition in the clock once
+until there is a transition in the clock again.</li>
+<li>The output <span class="math inline">\(Q\)</span> does not follow
+the input <span class="math inline">\(D\)</span> when <span
+class="math inline">\(Clk\)</span> is high.</li>
+</ul>
+<p><img src="./assets/d_ff.png" width="600" /></p>
+<ul>
+<li>Instead of being level sensitive, the D Flip-Flop is <strong>edge
+sensitive</strong>.</li>
+<li>The &gt; symbol denotes that the flip-flop responds to a clock
+edge.</li>
+<li>The bubble at &gt; is used to indicate a negative-edge-triggered
+flip-flop.</li>
+</ul>
+<p><img src="./assets/d_ff_latch.png" width="600" /></p>
+<ul>
+<li>D Flip-Flop may be built from two back to back D latches controlled
+by complementary clocks.</li>
+</ul>
+<h2 id="positive-edge-triggered-d-flip-flop">Positive Edge Triggered D
+Flip-Flop</h2>
+<ul>
+<li>When <span class="math inline">\(Clk = 0\)</span> the master latch
+is transparent and the slave is opaque.
+<ul>
+<li>Whatever the value of <span class="math inline">\(D\)</span> will be
+passed to <span class="math inline">\(N1\)</span></li>
+</ul></li>
+<li>When <span class="math inline">\(Clk = 1\)</span> the master latch
+is opaque and the slave is transparent.
+<ul>
+<li>Whatever the value of <span class="math inline">\(D\)</span> was at
+the moment before the rising edge is latched onto <span
+class="math inline">\(N1\)</span> which is then passed to <span
+class="math inline">\(Q\)</span> the moment after the rising edge but
+<span class="math inline">\(N1\)</span> no longer follows <span
+class="math inline">\(D\)</span>.</li>
+</ul></li>
+<li>All other times <span class="math inline">\(Q\)</span> retains its
+previous value since there is always an opaque latch blocking the path
+from <span class="math inline">\(D\)</span> to <span
+class="math inline">\(Q\)</span></li>
+</ul>
+<h2 id="negative-edge-triggered-d-flip-flop">Negative Edge Triggered D
+Flip-Flop</h2>
+<p><img src="./assets/d_ff_neg.png" width="700" /></p>
+<h2 id="enabled-flip-flop">Enabled Flip-Flop</h2>
+<p><img src="./assets/d_ff_en.png" width="600" /></p>
+<ul>
+<li>Adds an enable input to the D Flip-Flop to determine whether data is
+loaded on the clock edge.</li>
+<li>Useful for loading values some of the times instead of every clock
+edge.</li>
+<li>May be implemented as above.</li>
+</ul>
+<h2 id="resettable-flip-flop">Resettable Flip-Flop</h2>
+<ul>
+<li><p>Resettable Flip-Flop is a D Flip-Flop with a reset input.</p>
+<ul>
+<li>If RESET is HIGH the D Flip-Flop ignores D and resets to <span
+class="math inline">\(Q = 0\)</span>.</li>
+<li>If RESET is LOW the D Flip-Flop behaves like normal.</li>
+</ul></li>
+<li><p>These flip-flops are useful when we want to force a known state
+(0) all flip-flops in a system when we turn on the power.</p></li>
+<li><p>They can be <strong>synchronously resettable</strong> meaning
+they only reset themselves on the clock edge (as seen below).</p></li>
+</ul>
+<p><img src="./assets/d_ff_r.png" width="600" /></p>
+<ul>
+<li>or <strong>asynchronously resettable</strong> meaning they reset
+themselves as soon as RESET is HIGH, independent of the clock edge.</li>
+</ul>
+<h2 id="preset-and-clear-flip-flops">Preset and Clear Flip-Flops</h2>
+<p><img src="./assets/d_ff_pc.png" width="700" /></p>
+<h1 id="registers">Registers</h1>
+<h2 id="register">Register</h2>
+<p><img src="./assets/register.png" width="300" /></p>
+<ul>
+<li>Flip-flops store one bit of data in <span
+class="math inline">\(Q\)</span> at a time.</li>
+<li>Register is a bank of <span class="math inline">\(N\)</span>
+flip-flops that store <span class="math inline">\(N\)</span> bits of
+data.</li>
+<li>All the flip-flops in a register share a common clock input, so that
+all the bits of the register are updated at the same time.
+<ul>
+<li>They are said to be <strong>synchronised</strong>.</li>
+</ul></li>
+<li>Registers are the key building block of most sequential logic
+circuits.</li>
+<li>Typically used by microprocessors to store working variables.</li>
+</ul>
+<h2 id="shift-register">Shift Register</h2>
+<p><img src="./assets/shift_reg.png" width="700" /></p>
+<ul>
+<li>Shift registers have serial input <span
+class="math inline">\(S_{in}\)</span>, serial output <span
+class="math inline">\(S_{out}\)</span> and <span
+class="math inline">\(N\)</span> parallel outputs <span
+class="math inline">\(Q_{1}, ..., Q_{N-1}\)</span>.</li>
+<li>Type of register connecting output of one flip-flop to input of
+another.</li>
+<li>On each clock edge the output of the first flip-flop is latched onto
+the input of the second flip-flop and so on. A new bit is shifted in
+from <span class="math inline">\(S_{in}\)</span> and all the subsequent
+bits are shifted to the next flip-flop in the register.</li>
+<li>They are synchronised and all the operations happen at the same
+time.</li>
+<li>Shift registers may be viewed as <strong>serial-to-parallel
+converters</strong>.</li>
+<li>The are constructed from <span class="math inline">\(N\)</span>
+flip-flops connected in series.</li>
+</ul>
+<h3 id="shift-register-example">Shift Register Example</h3>
+<p><img src="./assets/shift_example.png" width="700" /></p>
+<h3 id="parallel-access-shift-register">Parallel-Access Shift
+Register</h3>
+<p><img src="./assets/shift_ll.png" width="500" /></p>
+<ul>
+<li>Shift registers can be modified to perform both
+<strong>serial-to-parallel</strong> and
+<strong>parallel-to-serial</strong> conversions by using muxes.</li>
+<li>We can read each bit with parallel access. But we also want to be
+able to load bits parallel into the shift register. This is where the
+parallel-access shift register comes in with multiplexers.</li>
+<li>In a <strong>parallel-access shift register</strong> bit can be
+loaded and read in parallel and shifted out
+<strong>serially</strong>.</li>
+<li>This is achieved by adding a parallel input <span
+class="math inline">\(D_{N-1:0}\)</span> and a control signal
+<em>Load</em> to the shift register (also called <em>Not Shift</em>)
+<ul>
+<li>When <em>Load</em> is HIGH, the flip-flop is loaded in parallel with
+the bit from <span class="math inline">\(D_{N-1:0}\)</span>.</li>
+<li>Otherwise, the shift register shifts normally.</li>
+<li>Both shifting and loading happens at the clock edge.</li>
+</ul></li>
+</ul>
+<h2 id="counters">Counters</h2>
+<ul>
+<li><strong>Counter</strong> is a register that increments/decrements by
+one on each clock edge or on a specific event (such as a button
+press).</li>
+<li>Counters may be used for:
+<ul>
+<li>Counting the number of occurrences of a specific event.</li>
+<li>Generatign timing intervals.</li>
+<li>Keep track of time elapsed between events.</li>
+</ul></li>
+<li>Two types of counters:
+<ul>
+<li>Synchronous counters: If the trigger is the clock</li>
+<li>Asynchronous counters (not covered in this course): some event
+occurs at unknown time.</li>
+</ul></li>
+</ul>
+<h3 id="synchronous-counter">Synchronous Counter</h3>
+<p><img src="./assets/counter_sync.png" width="400" /></p>
+<ul>
+<li>Synchronous counters count the number of clock rising edges.</li>
+<li>The counter counts when <span class="math inline">\(En = 1\)</span>.
+It counts in binary (000, 001, 010, 011, 100, 101, 110, 111)
+<ul>
+<li><span class="math inline">\(D_0 = Q_{0} \text{ XOR } En\)</span>
+<ul>
+<li>The first bit continuously flips its output.</li>
+</ul></li>
+<li><span class="math inline">\(D_1 = Q_{1} \text{ XOR } Q_0 \cdot
+En\)</span>
+<ul>
+<li>It flips on the clock edge and when the previous bit <span
+class="math inline">\(Q_1 = 1\)</span>.</li>
+</ul></li>
+<li><span class="math inline">\(D_2 = Q_{2} \text{ XOR } Q_1 \cdot Q_0
+\cdot En\)</span>
+<ul>
+<li>It flips when all the previous bits are 1. (i.e. when <span
+class="math inline">\(Q_1 = 1\)</span> and <span
+class="math inline">\(Q_0 = 1\)</span>)</li>
+<li>You may notice a pattern about now</li>
+</ul></li>
+<li><span class="math inline">\(D_3 = Q_{3} \text{ XOR } Q_2 \cdot Q_1
+\cdot Q_0 \cdot En\)</span>
+<ul>
+<li>From the pattern we can conclude this. (all the previous bits are
+1)</li>
+</ul></li>
+</ul></li>
+<li>The state of the <span class="math inline">\(i\)</span>-th flip-flop
+only changes if all preceding flip-flops are <span
+class="math inline">\(Q = 1\)</span>.</li>
+<li>If <span class="math inline">\(En = 1\)</span> and all preceding
+flip-flops are <span class="math inline">\(Q = 1\)</span> then the <span
+class="math inline">\(i\)</span>-th flip-flop will be <span
+class="math inline">\(Q_i = \sim D_i\)</span>.</li>
+</ul>
+<h3 id="counters-with-parallel-load">Counters with Parallel Load</h3>
+<p><img src="./assets/count_ll.png" width="400" /></p>
+<ul>
+<li>When we want to start counting at a specific non-zero value, inputs
+are provided to load the initial count in parallel.</li>
+<li>2:1 multiplexer is used to select (via the <span
+class="math inline">\(Load\)</span> control input) the input to load the
+counter from a parallel input <span
+class="math inline">\(D_{N-1:0}\)</span>.
+<ul>
+<li>If <span class="math inline">\(Load = 0\)</span> the circuit counts
+normally.</li>
+<li>If <span class="math inline">\(Load = 1\)</span> the circuit loads
+the counter with the value of <span
+class="math inline">\(D_{N-1:0}\)</span>.</li>
+<li>All these events still take place on the clock edge.</li>
+</ul></li>
+</ul>
+<h3 id="counters-with-synchronous-reload">Counters with Synchronous
+Reload</h3>
+<ul>
+<li>An n bit up-counter functuons naturally as a modulo-<span
+class="math inline">\(2^n\)</span> counter.
+<ul>
+<li>This means a 3-bit counter will count from 0 to <span
+class="math inline">\(2^3 - 1 = 7\)</span>.</li>
+</ul></li>
+<li>Sometimes it is required to stop counting at another number that
+isn’t a power of 2.</li>
+<li>The most straigtforward approach is to detect this number and load
+in zero again.</li>
+<li>We can detect our stopping condition with AND gates. For example if
+we want to count to 5 we can use the logic <span class="math inline">\(y
+= Q_3 \cdot \overline{Q_2} \cdot Q_1\)</span> and pass it to the <span
+class="math inline">\(Load = y\)</span> control input.</li>
+<li>We use parallel load to reset the counter to zero (or any other
+starting value for that matter).</li>
+<li>The desired counting sequence is achieved on each active clock edge
+(synchronous).</li>
+</ul>
+<p><img src="./assets/count_sync_reload.png" width="400" /></p>
+<h3 id="counters-with-asynchronous-reload">Counters with Asynchronous
+Reload</h3>
+<p><strong>NOTE:</strong> This is a bad idea.</p>
+<ul>
+<li>Uses clear (asynchronous) input of flip-flop instead of
+parallel-load.</li>
+<li>A NAND gate detects the condition and clears the counter immediately
+after reaching the desired value.</li>
+<li>The counting sequence is achieved but 5 is only output for a short
+time, much shorter than a clock cycle. (doesn’t complete the 5
+cycle)</li>
+<li>Thus synchronous counters are better suited for counting to a
+specific value in set intervals.</li>
+</ul>
+<p><img src="./assets/count_reload_async.png" width="400" /></p>
+<h1 id="synchronous-logic-design">Synchronous Logic Design</h1>
+<h1 id="cyclic-circuits">Cyclic Circuits</h1>
+<h1 id="synchronous-sequential-circuits">Synchronous Sequential
+Circuits</h1>
+<h2 id="composition-of-synchronous-sequential-circuits">Composition of
+Synchronous Sequential Circuits</h2>
+</body>
+</html>
