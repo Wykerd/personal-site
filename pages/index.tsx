@@ -122,7 +122,7 @@ const Home: NextPage = () => {
         <div>
             <Head>
                 <title>Daniel Wykerd</title>
-                <meta name="description" content="A 19 year old studying Electronic Engineering at Stellenbosch University, South Africa." />
+                <meta name="description" content="Self-taught Fullstack developer currently studying Electronic and Electrical Engineering." />
                 <link rel="icon" href="/favicon.ico" />
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
@@ -136,7 +136,7 @@ const Home: NextPage = () => {
                             <span>Hey there,</span> <span className="font-extrabold bg-clip-text text-transparent bg-gradient-to-br from-blue-500 to-rose-400">I&apos;m Daniel Wykerd.</span>
                         </h1>
                         <p className="font-mono">
-                            19 year old Self-taught Fullstack Developer currently studying Electronic Engineering at Stellenbosch University, South Africa.
+                            20 year old Self-taught Fullstack Developer currently studying Electronic Engineering at Stellenbosch University, South Africa.
                         </p>
                     </div>
                     <motion.div
@@ -266,7 +266,7 @@ const Home: NextPage = () => {
                         <span className="border-l-transparent border-l-[0.8rem] border-r-transparent border-r-[0.8rem] block border-t-neutral-200 border-t-[2rem] rounded-b-2xl"></span>
                     </div>
                 </section>
-                <section className="relative w-full">
+                <section className="relative w-full overflow-hidden">
                     <div className="top-0 bottom-0 right-0 left-0 grid-cols-1 lg:grid-cols-2 grid gap-8 gap-y-20 mx-28 mt-16 sm:mx-36 xl:mx-48 2xl:mx-72 sm:mt-24 lg:mt-32 mb-8 z-50">
                         {
                             [
@@ -325,7 +325,7 @@ const Home: NextPage = () => {
                         </h1>
                         <p className="text-center" 
                         ref={ossRef}>
-                            A non-exhausive list of some of my open source projects. You&apos;ll find more on my GitHub profile.
+                            I love working on open source projects in my free time. Here's a non-exhausive list of favourites. You&apos;ll find more on my GitHub profile.
                         </p>
                     </motion.div>
                     <div className="top-0 bottom-0 right-0 left-0 grid-cols-1 lg:grid-cols-2 grid gap-8 gap-y-20 mx-28 mb-16 sm:mx-36 xl:mx-48 2xl:mx-72 sm:mb-24 lg:mb-32 mt-8 z-50">
