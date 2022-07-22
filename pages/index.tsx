@@ -325,7 +325,7 @@ const Home: NextPage = () => {
                         </h1>
                         <p className="text-center" 
                         ref={ossRef}>
-                            I love working on open source projects in my free time. Here's a non-exhausive list of favourites. You&apos;ll find more on my GitHub profile.
+                            I love working on open source projects in my free time. Here&apos;s a non-exhausive list of favourites. You&apos;ll find more on my GitHub profile.
                         </p>
                     </motion.div>
                     <div className="top-0 bottom-0 right-0 left-0 grid-cols-1 lg:grid-cols-2 grid gap-8 gap-y-20 mx-28 mb-16 sm:mx-36 xl:mx-48 2xl:mx-72 sm:mb-24 lg:mb-32 mt-8 z-50">
